@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,20 +22,28 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Icon
+import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
 import androidx.tv.material3.Text
+import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.screens.Screens
+import mn.univision.secretroom.presentation.utils.occupyScreenSize
 
 val TopBarTabs = Screens.entries.toList().filter { it.isTabItem }
 val TopbarFocusRequesters = List(TopBarTabs.size + 2) { FocusRequester() }
+private const val SEARCH_SCREEN_INDEX = -2
+private const val SETTINGS_SCREEN_INDEX = -1
 
 @Composable
 fun Navbar(
-    onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
     selectedTabIndex: Int,
     screens: List<Screens> = TopBarTabs,
@@ -43,26 +52,24 @@ fun Navbar(
 ) {
 
     val focusManager = LocalFocusManager.current
-    focusManager
+
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp)
+                .padding(top = 10.dp)
                 .background(MaterialTheme.colorScheme.surface)
                 .focusRestorer(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box {
-                Text("Secret Room")
-            }
+            Text("Secret Room")
 
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var isTabRowFocused by remember { mutableStateOf(false) }
 
-                Spacer(modifier = Modifier.width(10.dp))
+                Spacer(modifier = Modifier.weight(1f))
                 TabRow(modifier = Modifier.onFocusChanged {
                     isTabRowFocused = it.isFocused || it.hasFocus
                 }, selectedTabIndex = selectedTabIndex, indicator = { tabPositions, _ ->
@@ -95,21 +102,60 @@ fun Navbar(
                                 },
                             ) {
 
-                                Text(
-                                    modifier = Modifier,
-                                    text = screen.name,
-                                )
-
+                                if (screen.tabIcon != null) {
+                                    Icon(
+                                        screen.tabIcon,
+                                        modifier = Modifier.padding(4.dp),
+                                        contentDescription = StringConstants.Composable
+                                            .ContentDescription.DashboardSearchButton,
+                                        tint = LocalContentColor.current
+                                    )
+                                } else {
+                                    Text(
+                                        modifier = Modifier
+                                            .occupyScreenSize()
+                                            .padding(horizontal = 16.dp),
+                                        text = screen(),
+                                        style = MaterialTheme.typography.titleSmall.copy(
+                                            color = LocalContentColor.current
+                                        )
+                                    )
+                                }
                             }
                         }
-
                     }
-
-
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Row {
+                    SearchIcon(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .focusRequester(focusRequesters[0])
+                            .semantics {
+                                contentDescription =
+                                    StringConstants.Composable.ContentDescription.UserAvatar
+                            },
+                        selected = selectedTabIndex == SEARCH_SCREEN_INDEX,
+                        onClick = {
+                            onScreenSelection(Screens.Search)
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(20.dp))
+                    SettingsIcon(
+                        modifier = Modifier
+                            .size(24.dp)
+                            .focusRequester(focusRequesters[1])
+                            .semantics {
+                                contentDescription =
+                                    StringConstants.Composable.ContentDescription.UserAvatar
+                            },
+                        selected = selectedTabIndex == SETTINGS_SCREEN_INDEX,
+                        onClick = {
+                            onScreenSelection(Screens.Settings)
+                        }
+                    )
                 }
             }
         }
     }
-
-
 }

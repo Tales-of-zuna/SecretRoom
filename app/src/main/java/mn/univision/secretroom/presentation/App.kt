@@ -10,12 +10,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.presentation.screens.Screens
-import mn.univision.secretroom.presentation.screens.search.SearchScreen
+import mn.univision.secretroom.presentation.screens.layout.LayoutScreen
 
 @Composable
 fun App(
     onBackPressed: () -> Unit,
-    // You can add more parameters here if needed, such as a navigation controller or theme settings.
 ) {
 
     val navController = rememberNavController()
@@ -23,21 +22,21 @@ fun App(
 
     NavHost(
         navController = navController,
-        startDestination = Screens.Home(),
+        startDestination = Screens.LayoutScreen(),
         modifier = androidx.compose.ui.Modifier.fillMaxSize(),
         builder = {
             composable(
-                route = Screens.Search()
+                route = Screens.LayoutScreen()
             ) {
-                SearchScreen(
-                    onBackPressed = {
-                        if (navController.navigateUp()) {
-                            isComingBackFromDifferentScreen = true
-                        }
+                LayoutScreen(
+                    onBackPressed = onBackPressed,
+                    isComingBackFromDifferentScreen = isComingBackFromDifferentScreen,
+                    resetIsComingBackFromDifferentScreen = {
+                        isComingBackFromDifferentScreen = false
                     }
+
                 )
             }
         }
-
     )
 }

@@ -2,6 +2,7 @@ package mn.univision.secretroom.presentation.screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Screens(
@@ -9,16 +10,17 @@ enum class Screens(
     val isTabItem: Boolean = false,
     val tabIcon: ImageVector? = null
 ) {
-    Profile,
+    LayoutScreen,
     Home(isTabItem = true),
-    Categories(isTabItem = true),
     Movies(isTabItem = true),
-    Shows(isTabItem = true),
-    Favourites(isTabItem = true),
-    Search(isTabItem = true, tabIcon = Icons.Default.Search);
+    Bandles(isTabItem = true),
+    TV(isTabItem = true),
+    Actors(isTabItem = true),
+    Commerce(isTabItem = true),
+    Search(tabIcon = Icons.Default.Search),
+    Settings(tabIcon = Icons.Default.Settings);
 //    CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
 //    MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
-//    Dashboard,
 //    VideoPlayer(listOf(VideoPlayerScreen.MovieIdBundleKey));
 
     operator fun invoke(): String {

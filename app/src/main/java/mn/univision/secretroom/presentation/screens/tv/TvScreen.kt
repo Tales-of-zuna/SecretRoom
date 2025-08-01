@@ -1,4 +1,4 @@
-package mn.univision.secretroom.presentation.screens.search
+package mn.univision.secretroom.presentation.screens.tv
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,22 +12,24 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 
 @Composable
-fun SearchScreen(
+fun TVScreen(
     onScroll: (isTopBarVisible: Boolean) -> Unit,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Search",
-            style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(bottom = 24.dp)
+            text = "TV Shows",
+            style = MaterialTheme.typography.headlineLarge
         )
-        
+        Text(
+            text = "Discover amazing TV shows",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 16.dp)
+        )
     }
 }
