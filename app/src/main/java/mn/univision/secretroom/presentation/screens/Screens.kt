@@ -8,15 +8,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 enum class Screens(
     private val args: List<String>? = null,
     val isTabItem: Boolean = false,
-    val tabIcon: ImageVector? = null
+    val tabIcon: ImageVector? = null,
+    val displayName: String = "",
 ) {
     LayoutScreen,
-    Home(isTabItem = true),
-    Movies(isTabItem = true),
-    Bandles(isTabItem = true),
-    TV(isTabItem = true),
-    Actors(isTabItem = true),
-    Commerce(isTabItem = true),
+    Home(isTabItem = true, displayName = "Нүүр"),
+    Movies(isTabItem = true, displayName = "Кино сан"),
+    Bandles(isTabItem = true, displayName = "Багц"),
+    TV(isTabItem = true, displayName = "ТВ"),
+    Actors(isTabItem = true, displayName = "Жүжигчид"),
+    Commerce(isTabItem = true, displayName = "Дэлгүүр"),
     Search(tabIcon = Icons.Default.Search),
     Settings(tabIcon = Icons.Default.Settings);
 //    CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
