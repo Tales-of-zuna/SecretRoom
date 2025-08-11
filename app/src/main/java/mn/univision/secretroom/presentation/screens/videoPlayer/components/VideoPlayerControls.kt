@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.screens.videoPlayer.components
+package mn.univision.secretroom.presentation.screens.videoPlayer.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -29,8 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player
-import com.google.jetstream.data.entities.MovieDetails
-import com.google.jetstream.data.util.StringConstants
+import mn.univision.secretroom.data.entities.MovieDetails
+import mn.univision.secretroom.data.util.StringConstants
 
 @Composable
 fun VideoPlayerControls(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.common
+package mn.univision.secretroom.presentation.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,8 +22,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.util.StringConstants
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.util.StringConstants
 
 @Composable
 fun PosterImage(

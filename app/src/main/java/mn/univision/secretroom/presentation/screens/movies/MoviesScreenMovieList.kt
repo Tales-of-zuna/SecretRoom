@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.movies
+
+package mn.univision.secretroom.presentation.screens.movies
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.animateFloatAsState
@@ -50,10 +36,10 @@ import androidx.tv.material3.CompactCard
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.util.StringConstants
-import com.google.jetstream.presentation.screens.dashboard.rememberChildPadding
-import com.google.jetstream.presentation.theme.JetStreamBorderWidth
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.util.StringConstants
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -93,7 +79,7 @@ private fun MovieListItem(
     onMovieClick: (movie: Movie) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(JetStreamBorderWidth))
+        Spacer(modifier = Modifier.height(SecretRoomBorderWidth))
         var isFocused by remember { mutableStateOf(false) }
         CompactCard(
             modifier = modifier
@@ -105,7 +91,7 @@ private fun MovieListItem(
             border = CardDefaults.border(
                 focusedBorder = Border(
                     border = BorderStroke(
-                        width = JetStreamBorderWidth, color = MaterialTheme.colorScheme.onSurface
+                        width = SecretRoomBorderWidth, color = MaterialTheme.colorScheme.onSurface
                     )
                 )
             ),

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.common
+package mn.univision.secretroom.presentation.common
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.BoxScope
@@ -25,8 +25,8 @@ import androidx.tv.material3.ClickableSurfaceDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.StandardCardContainer
 import androidx.tv.material3.Surface
-import com.google.jetstream.presentation.theme.JetStreamBorderWidth
-import com.google.jetstream.presentation.theme.JetStreamCardShape
+import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
+import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 
 @Composable
 fun MovieCard(
@@ -41,14 +41,14 @@ fun MovieCard(
         imageCard = {
             Surface(
                 onClick = onClick,
-                shape = ClickableSurfaceDefaults.shape(JetStreamCardShape),
+                shape = ClickableSurfaceDefaults.shape(SecretRoomCardShape),
                 border = ClickableSurfaceDefaults.border(
                     focusedBorder = Border(
                         border = BorderStroke(
-                            width = JetStreamBorderWidth,
+                            width = SecretRoomBorderWidth,
                             color = MaterialTheme.colorScheme.onSurface
                         ),
-                        shape = JetStreamCardShape
+                        shape = SecretRoomCardShape
                     )
                 ),
                 scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),

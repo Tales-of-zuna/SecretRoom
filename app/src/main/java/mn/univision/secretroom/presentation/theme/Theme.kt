@@ -1,26 +1,12 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.theme // ktlint-disable filename
+
+package mn.univision.secretroom.presentation.theme // ktlint-disable filename
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.darkColorScheme
-import com.google.jetstream.R
+import mn.univision.secretroom.R
 
 private val darkColorScheme @Composable get() = darkColorScheme(
     primary = colorResource(R.color.primary),
@@ -49,7 +35,7 @@ private val darkColorScheme @Composable get() = darkColorScheme(
 )
 
 @Composable
-fun JetStreamTheme(
+fun SecretRoomTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(

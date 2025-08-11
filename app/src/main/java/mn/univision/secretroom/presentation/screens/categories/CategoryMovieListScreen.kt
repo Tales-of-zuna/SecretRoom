@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.categories
+
+package mn.univision.secretroom.presentation.screens.categories
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
@@ -37,15 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.entities.MovieCategoryDetails
-import com.google.jetstream.presentation.common.Error
-import com.google.jetstream.presentation.common.Loading
-import com.google.jetstream.presentation.common.MovieCard
-import com.google.jetstream.presentation.common.PosterImage
-import com.google.jetstream.presentation.screens.dashboard.rememberChildPadding
-import com.google.jetstream.presentation.theme.JetStreamBottomListPadding
-import com.google.jetstream.presentation.utils.focusOnInitialVisibility
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.entities.MovieCategoryDetails
+import mn.univision.secretroom.presentation.common.Error
+import mn.univision.secretroom.presentation.common.Loading
+import mn.univision.secretroom.presentation.common.MovieCard
+import mn.univision.secretroom.presentation.common.PosterImage
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.theme.SecretRoomBottomListPadding
+import mn.univision.secretroom.presentation.utils.focusOnInitialVisibility
 
 object CategoryMovieListScreen {
     const val CategoryIdBundleKey = "categoryId"
@@ -106,7 +92,7 @@ private fun CategoryDetails(
         )
         LazyVerticalGrid(
             columns = GridCells.Fixed(6),
-            contentPadding = PaddingValues(bottom = JetStreamBottomListPadding)
+            contentPadding = PaddingValues(bottom = SecretRoomBottomListPadding)
         ) {
             itemsIndexed(
                 categoryDetails.movies,

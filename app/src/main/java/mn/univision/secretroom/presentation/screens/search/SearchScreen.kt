@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.search
+
+package mn.univision.secretroom.presentation.screens.search
 
 import android.view.KeyEvent
 import androidx.compose.animation.animateColorAsState
@@ -58,12 +44,12 @@ import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import com.google.jetstream.R
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.entities.MovieList
-import com.google.jetstream.presentation.common.MoviesRow
-import com.google.jetstream.presentation.screens.dashboard.rememberChildPadding
-import com.google.jetstream.presentation.theme.JetStreamCardShape
+import mn.univision.secretroom.R
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.entities.MovieList
+import mn.univision.secretroom.presentation.common.MoviesRow
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 
 @Composable
 fun SearchScreen(
@@ -123,7 +109,7 @@ fun SearchResult(
     ) {
         item {
             Surface(
-                shape = ClickableSurfaceDefaults.shape(shape = JetStreamCardShape),
+                shape = ClickableSurfaceDefaults.shape(shape = SecretRoomCardShape),
                 scale = ClickableSurfaceDefaults.scale(focusedScale = 1f),
                 colors = ClickableSurfaceDefaults.colors(
                     containerColor = MaterialTheme.colorScheme.inverseOnSurface,
@@ -142,7 +128,7 @@ fun SearchResult(
                                 label = ""
                             ).value
                         ),
-                        shape = JetStreamCardShape
+                        shape = SecretRoomCardShape
                     )
                 ),
                 tonalElevation = 2.dp,

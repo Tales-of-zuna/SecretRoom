@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.home
+
+package mn.univision.secretroom.presentation.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -48,14 +34,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import com.google.jetstream.R
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.entities.MovieList
-import com.google.jetstream.presentation.common.ImmersiveListMoviesRow
-import com.google.jetstream.presentation.common.ItemDirection
-import com.google.jetstream.presentation.common.PosterImage
-import com.google.jetstream.presentation.screens.dashboard.rememberChildPadding
-import com.google.jetstream.presentation.utils.bringIntoViewIfChildrenAreFocused
+import mn.univision.secretroom.R
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.entities.MovieList
+import mn.univision.secretroom.presentation.common.ImmersiveListMoviesRow
+import mn.univision.secretroom.presentation.common.ItemDirection
+import mn.univision.secretroom.presentation.common.PosterImage
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.utils.bringIntoViewIfChildrenAreFocused
 
 @Composable
 fun Top10MoviesList(

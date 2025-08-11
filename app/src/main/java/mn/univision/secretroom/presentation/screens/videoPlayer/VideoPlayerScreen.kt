@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.videoPlayer
+
+package mn.univision.secretroom.presentation.screens.videoPlayer
 
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -39,21 +25,21 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.compose.PlayerSurface
 import androidx.media3.ui.compose.SURFACE_TYPE_TEXTURE_VIEW
 import androidx.media3.ui.compose.modifiers.resizeWithContentScale
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.entities.MovieDetails
-import com.google.jetstream.presentation.common.Error
-import com.google.jetstream.presentation.common.Loading
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerControls
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerOverlay
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerPulse
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerPulse.Type.BACK
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerPulse.Type.FORWARD
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerPulseState
-import com.google.jetstream.presentation.screens.videoPlayer.components.VideoPlayerState
-import com.google.jetstream.presentation.screens.videoPlayer.components.rememberPlayer
-import com.google.jetstream.presentation.screens.videoPlayer.components.rememberVideoPlayerPulseState
-import com.google.jetstream.presentation.screens.videoPlayer.components.rememberVideoPlayerState
-import com.google.jetstream.presentation.utils.handleDPadKeyEvents
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.entities.MovieDetails
+import mn.univision.secretroom.presentation.common.Error
+import mn.univision.secretroom.presentation.common.Loading
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerControls
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerOverlay
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerPulse
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerPulse.Type.BACK
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerPulse.Type.FORWARD
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerPulseState
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.VideoPlayerState
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.rememberPlayer
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.rememberVideoPlayerPulseState
+import mn.univision.secretroom.presentation.screens.videoPlayer.components.rememberVideoPlayerState
+import mn.univision.secretroom.presentation.utils.handleDPadKeyEvents
 
 object VideoPlayerScreen {
     const val MovieIdBundleKey = "movieId"

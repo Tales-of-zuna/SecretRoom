@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.home
+
+package mn.univision.secretroom.presentation.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -66,13 +52,13 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.ShapeDefaults
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
-import com.google.jetstream.R
-import com.google.jetstream.data.entities.Movie
-import com.google.jetstream.data.util.StringConstants
-import com.google.jetstream.presentation.theme.JetStreamBorderWidth
-import com.google.jetstream.presentation.theme.JetStreamButtonShape
-import com.google.jetstream.presentation.utils.Padding
-import com.google.jetstream.presentation.utils.handleDPadKeyEvents
+import mn.univision.secretroom.R
+import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.util.StringConstants
+import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
+import mn.univision.secretroom.presentation.theme.SecretRoomButtonShape
+import mn.univision.secretroom.presentation.utils.Padding
+import mn.univision.secretroom.presentation.utils.handleDPadKeyEvents
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 val CarouselSaver = Saver<CarouselState, Int>(
@@ -100,7 +86,7 @@ fun FeaturedMoviesCarousel(
         modifier = modifier
             .padding(start = padding.start, end = padding.start, top = padding.top)
             .border(
-                width = JetStreamBorderWidth,
+                width = SecretRoomBorderWidth,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha),
                 shape = ShapeDefaults.Medium,
             )
@@ -251,7 +237,7 @@ private fun WatchNowButton() {
         onClick = {},
         modifier = Modifier.padding(top = 8.dp),
         contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
-        shape = ButtonDefaults.shape(shape = JetStreamButtonShape),
+        shape = ButtonDefaults.shape(shape = SecretRoomButtonShape),
         colors = ButtonDefaults.colors(
             containerColor = MaterialTheme.colorScheme.onSurface,
             contentColor = MaterialTheme.colorScheme.surface,

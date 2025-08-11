@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.movies
+
+package mn.univision.secretroom.presentation.screens.movies
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -42,12 +28,12 @@ import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.ClassicCard
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
-import com.google.jetstream.R
-import com.google.jetstream.data.entities.MovieCast
-import com.google.jetstream.presentation.screens.dashboard.rememberChildPadding
-import com.google.jetstream.presentation.theme.JetStreamBorderWidth
-import com.google.jetstream.presentation.theme.JetStreamCardShape
-import com.google.jetstream.presentation.utils.ourColors
+import mn.univision.secretroom.R
+import mn.univision.secretroom.data.entities.MovieCast
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
+import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
+import mn.univision.secretroom.presentation.utils.ourColors
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -87,15 +73,15 @@ private fun CastAndCrewItem(
         modifier = modifier
             .padding(end = 20.dp, bottom = 16.dp)
             .aspectRatio(1 / 1.8f),
-        shape = CardDefaults.shape(shape = JetStreamCardShape),
+        shape = CardDefaults.shape(shape = SecretRoomCardShape),
         scale = CardDefaults.scale(focusedScale = 1f),
         border = CardDefaults.border(
             focusedBorder = Border(
                 border = BorderStroke(
-                    width = JetStreamBorderWidth,
+                    width = SecretRoomBorderWidth,
                     color = MaterialTheme.colorScheme.onSurface
                 ),
-                shape = JetStreamCardShape
+                shape = SecretRoomCardShape
             )
         ),
         title = {

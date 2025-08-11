@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.screens.videoPlayer.components
+package mn.univision.secretroom.presentation.screens.videoPlayer.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import com.google.jetstream.R
-import com.google.jetstream.presentation.theme.JetStreamTheme
+import mn.univision.secretroom.R
+import mn.univision.secretroom.presentation.theme.SecretRoomTheme
 
 enum class VideoPlayerMediaTitleType { AD, LIVE, DEFAULT }
 
@@ -101,7 +101,7 @@ fun VideoPlayerMediaTitle(
 @Preview(name = "TV Series", device = "id:tv_4k")
 @Composable
 private fun VideoPlayerMediaTitlePreviewSeries() {
-    JetStreamTheme {
+    SecretRoomTheme {
         Surface(shape = RectangleShape) {
             VideoPlayerMediaTitle(
                 title = "True Detective",
@@ -116,7 +116,7 @@ private fun VideoPlayerMediaTitlePreviewSeries() {
 @Preview(name = "Live", device = "id:tv_4k")
 @Composable
 private fun VideoPlayerMediaTitlePreviewLive() {
-    JetStreamTheme {
+    SecretRoomTheme {
         Surface(shape = RectangleShape) {
             VideoPlayerMediaTitle(
                 title = "MacLaren Reveal Their 2022 Car: The MCL36",
@@ -131,7 +131,7 @@ private fun VideoPlayerMediaTitlePreviewLive() {
 @Preview(name = "Ads", device = "id:tv_4k")
 @Composable
 private fun VideoPlayerMediaTitlePreviewAd() {
-    JetStreamTheme {
+    SecretRoomTheme {
         Surface(shape = RectangleShape) {
             VideoPlayerMediaTitle(
                 title = "Samsung Galaxy Note20 | Ultra 5G",

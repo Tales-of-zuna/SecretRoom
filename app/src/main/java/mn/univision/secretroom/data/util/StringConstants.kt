@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.data.util
+
+package mn.univision.secretroom.data.util
 
 object StringConstants {
     object Movie {
@@ -69,7 +55,7 @@ object StringConstants {
         fun reviewCount(count: String) = "$count reviews"
 
         object Placeholders {
-            const val AboutSectionTitle = "About JetStream"
+            const val AboutSectionTitle = "About SecretRoom"
             const val AboutSectionDescription = "Welcome to Jetstream! We are a new and" +
                 " exciting streaming platform that offers a vast selection of movies," +
                 " TV shows, and original content for you to enjoy. Our team is dedicated" +
@@ -105,7 +91,7 @@ object StringConstants {
             const val SubtitlesSectionLanguageItem = "Subtitles Language"
             const val SubtitlesSectionLanguageValue = "English"
             const val AccountsSelectionSwitchAccountsTitle = "Switch accounts"
-            const val AccountsSelectionSwitchAccountsEmail = "jack@jetstream.com"
+            const val AccountsSelectionSwitchAccountsEmail = "jack@secretroom.com"
             const val AccountsSelectionLogOut = "Log out"
             const val AccountsSelectionChangePasswordTitle = "Change password"
             const val AccountsSelectionChangePasswordValue = "••••••••••••••"
@@ -117,7 +103,7 @@ object StringConstants {
             const val HelpAndSupportSectionFAQItem = "FAQ's"
             const val HelpAndSupportSectionPrivacyItem = "Privacy Policy"
             const val HelpAndSupportSectionContactItem = "Contact us on"
-            const val HelpAndSupportSectionContactValue = "support@jetstream.com"
+            const val HelpAndSupportSectionContactValue = "support@secretroom.com"
         }
 
         const val VideoPlayerControlPlaylistButton = "Playlist Button"

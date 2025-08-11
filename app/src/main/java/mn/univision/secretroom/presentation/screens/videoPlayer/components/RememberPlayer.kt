@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.screens.videoPlayer.components
+package mn.univision.secretroom.presentation.screens.videoPlayer.components
 
 import android.content.Context
 import androidx.compose.runtime.Composable

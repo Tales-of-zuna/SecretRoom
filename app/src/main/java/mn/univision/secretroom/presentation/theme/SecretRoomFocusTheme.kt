@@ -1,16 +1,14 @@
-
-
 package mn.univision.secretroom.presentation.theme
 
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ShapeDefaults
 
-val JetStreamCardShape = ShapeDefaults.ExtraSmall
-val JetStreamButtonShape = ShapeDefaults.ExtraSmall
+val SecretRoomCardShape = ShapeDefaults.ExtraSmall
+val SecretRoomButtonShape = ShapeDefaults.ExtraSmall
 val IconSize = 20.dp
-val JetStreamBorderWidth = 3.dp
+val SecretRoomBorderWidth = 3.dp
 
 /**
  * Space to be given below every Lazy (or scrollable) vertical list throughout the app
  */
-val JetStreamBottomListPadding = 28.dp
+val SecretRoomBottomListPadding = 28.dp

@@ -1,20 +1,6 @@
-/*
- * Copyright 2023 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.google.jetstream.presentation.screens.favourites
+
+package mn.univision.secretroom.presentation.screens.favourites
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
@@ -40,8 +26,8 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.ProvideTextStyle
 import androidx.tv.material3.Text
-import com.google.jetstream.data.util.StringConstants
-import com.google.jetstream.presentation.theme.JetStreamCardShape
+import mn.univision.secretroom.data.util.StringConstants
+import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
@@ -81,13 +67,13 @@ fun MovieFilterChip(
                 )
             }
         },
-        shape = FilterChipDefaults.shape(shape = JetStreamCardShape),
+        shape = FilterChipDefaults.shape(shape = SecretRoomCardShape),
         border = FilterChipDefaults.border(
             border = Border(
                 border = BorderStroke(
                     width = 1.dp, color = MaterialTheme.colorScheme.border.copy(alpha = 0.5f)
                 ),
-                shape = JetStreamCardShape
+                shape = SecretRoomCardShape
             ),
             focusedBorder = ChipFocusedBorder,
         ),
@@ -116,5 +102,5 @@ private val ChipFocusedBorder
             width = 1.5.dp,
             color = MaterialTheme.colorScheme.onSurface,
         ),
-        shape = JetStreamCardShape
+        shape = SecretRoomCardShape
     )

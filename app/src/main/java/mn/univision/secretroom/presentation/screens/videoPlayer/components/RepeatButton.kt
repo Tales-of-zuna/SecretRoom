@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.screens.videoPlayer.components
+package mn.univision.secretroom.presentation.screens.videoPlayer.components
 
 import androidx.annotation.OptIn
 import androidx.compose.material.icons.Icons
@@ -30,7 +30,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.compose.state.RepeatButtonState
 import androidx.media3.ui.compose.state.rememberRepeatButtonState
 import androidx.tv.material3.LocalContentColor
-import com.google.jetstream.data.util.StringConstants
+import mn.univision.secretroom.data.util.StringConstants
 
 @OptIn(UnstableApi::class)
 @Composable

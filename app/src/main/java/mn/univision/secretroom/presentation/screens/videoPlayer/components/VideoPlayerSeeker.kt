@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.screens.videoPlayer.components
+package mn.univision.secretroom.presentation.screens.videoPlayer.components
 
 import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.Row
@@ -35,7 +35,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.compose.state.PlayPauseButtonState
 import androidx.media3.ui.compose.state.rememberPlayPauseButtonState
-import com.google.jetstream.data.util.StringConstants
+import mn.univision.secretroom.data.util.StringConstants
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 

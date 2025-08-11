@@ -15,12 +15,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import mn.univision.secretroom.presentation.App
 import mn.univision.secretroom.presentation.theme.SecretRoomTheme
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
         setContent {
             SecretRoomTheme {
                 Box(

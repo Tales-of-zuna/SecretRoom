@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.google.jetstream.presentation.common
+package mn.univision.secretroom.presentation.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.tv.material3.Text
-import com.google.jetstream.R
+import mn.univision.secretroom.R
 
 @Composable
 fun Error(modifier: Modifier = Modifier) {
