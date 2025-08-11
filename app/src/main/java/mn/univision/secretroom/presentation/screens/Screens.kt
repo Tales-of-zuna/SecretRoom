@@ -1,28 +1,44 @@
-package mn.univision.secretroom.presentation.screens
+/*
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.google.jetstream.presentation.screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.google.jetstream.presentation.screens.categories.CategoryMovieListScreen
+import com.google.jetstream.presentation.screens.movies.MovieDetailsScreen
+import com.google.jetstream.presentation.screens.videoPlayer.VideoPlayerScreen
 
 enum class Screens(
     private val args: List<String>? = null,
     val isTabItem: Boolean = false,
-    val tabIcon: ImageVector? = null,
-    val displayName: String = "",
+    val tabIcon: ImageVector? = null
 ) {
-    LayoutScreen,
-    Home(isTabItem = true, displayName = "Нүүр"),
-    Movies(isTabItem = true, displayName = "Кино сан"),
-    Bandles(isTabItem = true, displayName = "Багц"),
-    TV(isTabItem = true, displayName = "ТВ"),
-    Actors(isTabItem = true, displayName = "Жүжигчид"),
-    Commerce(isTabItem = true, displayName = "Дэлгүүр"),
-    Search(tabIcon = Icons.Default.Search),
-    Settings(tabIcon = Icons.Default.Settings);
-//    CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
-//    MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
-//    VideoPlayer(listOf(VideoPlayerScreen.MovieIdBundleKey));
+    Profile,
+    Home(isTabItem = true),
+    Categories(isTabItem = true),
+    Movies(isTabItem = true),
+    Shows(isTabItem = true),
+    Favourites(isTabItem = true),
+    Search(isTabItem = true, tabIcon = Icons.Default.Search),
+    CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
+    MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
+    Dashboard,
+    VideoPlayer(listOf(VideoPlayerScreen.MovieIdBundleKey));
 
     operator fun invoke(): String {
         val argList = StringBuilder()
