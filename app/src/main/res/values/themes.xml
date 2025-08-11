@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2023 Google LLC
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +20,7 @@ https://www.apache.org/licenses/LICENSE-2.0
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/secretroom_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_play_circle</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="postSplashScreenTheme">@style/Theme.SecretRoom</item>
     </style>
 </resources>

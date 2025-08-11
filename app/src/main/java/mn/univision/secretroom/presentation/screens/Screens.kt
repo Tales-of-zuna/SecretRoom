@@ -19,7 +19,7 @@ enum class Screens(
     Movies(isTabItem = true, title = "Кино сан"),
     Shows(isTabItem = true, title = "Багц"),
     Favourites(isTabItem = true, title = "Дуртай"),
-    Search(isTabItem = true, tabIcon = Icons.Default.Search),
+    Search(tabIcon = Icons.Default.Search),
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
     Dashboard,

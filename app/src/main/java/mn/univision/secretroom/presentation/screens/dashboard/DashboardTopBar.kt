@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -38,20 +36,20 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Tab
 import androidx.tv.material3.TabRow
 import androidx.tv.material3.Text
+import coil.compose.AsyncImage
 import mn.univision.secretroom.R
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.theme.IconSize
 import mn.univision.secretroom.presentation.theme.LexendExa
-import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 import mn.univision.secretroom.presentation.utils.occupyScreenSize
 
 val TopBarTabs = Screens.entries.toList().filter { it.isTabItem }
 
-// +1 for ProfileTab
-val TopBarFocusRequesters = List(size = TopBarTabs.size + 1) { FocusRequester() }
+val TopBarFocusRequesters = List(size = TopBarTabs.size + 2) { FocusRequester() }
 
 private const val PROFILE_SCREEN_INDEX = -1
+private const val SEARCH_SCREEN_INDEX = -2
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -81,33 +79,27 @@ fun DashboardTopBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                var isTabRowFocused by remember { mutableStateOf(false) }
-
                 Spacer(modifier = Modifier.width(20.dp))
                 TabRow(
-                    modifier = Modifier
-                        .onFocusChanged {
-                            isTabRowFocused = it.isFocused || it.hasFocus
-                        },
-                    selectedTabIndex = selectedTabIndex,
-                    indicator = { tabPositions, _ ->
-                        if (selectedTabIndex >= 0) {
-                            DashboardTopBarItemIndicator(
-                                currentTabPosition = tabPositions[selectedTabIndex],
-                                anyTabFocused = isTabRowFocused,
-                                shape = SecretRoomCardShape
-                            )
-                        }
+                    selectedTabIndex = if (selectedTabIndex >= 0) selectedTabIndex else -1,
+                    indicator = { _, _ ->
                     },
                     separator = { Spacer(modifier = Modifier) }
                 ) {
                     screens.forEachIndexed { index, screen ->
                         key(index) {
+                            val isSelected = index == selectedTabIndex
+                            var isFocused by remember { mutableStateOf(false) }
+
                             Tab(
                                 modifier = Modifier
                                     .height(32.dp)
-                                    .focusRequester(focusRequesters[index + 1]),
-                                selected = index == selectedTabIndex,
+                                    .focusRequester(focusRequesters[index + 2])
+                                    .alpha(if (isSelected || isFocused) 1f else 0.6f)
+                                    .onFocusChanged {
+                                        isFocused = it.isFocused || it.hasFocus
+                                    },
+                                selected = isSelected,
                                 onFocus = { onScreenSelection(screen) },
                                 onClick = { focusManager.moveFocus(FocusDirection.Down) },
                             ) {
@@ -136,10 +128,25 @@ fun DashboardTopBar(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
+
+            SearchIcon(
+                modifier = Modifier
+                    .size(32.dp)
+                    .semantics {
+                        contentDescription = StringConstants.Composable
+                            .ContentDescription.DashboardSearchButton
+                    },
+                selected = selectedTabIndex == SEARCH_SCREEN_INDEX,
+                onClick = {
+                    onScreenSelection(Screens.Search)
+                }
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
             UserAvatar(
                 modifier = Modifier
                     .size(32.dp)
-                    .focusRequester(focusRequesters[0])
                     .semantics {
                         contentDescription =
                             StringConstants.Composable.ContentDescription.UserAvatar
@@ -161,12 +168,10 @@ private fun SecretRoomLogo(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            Icons.Default.PlayCircle,
-            contentDescription = StringConstants.Composable
-                .ContentDescription.BrandLogoImage,
+        AsyncImage(
+            model = R.drawable.logo,
+            contentDescription = "logo",
             modifier = Modifier
-                .padding(end = 4.dp)
                 .size(IconSize)
         )
         Text(

@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.common
 
 import androidx.compose.animation.AnimatedContent
@@ -12,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -25,6 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
@@ -32,6 +33,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -68,6 +70,9 @@ fun MoviesRow(
     onMovieSelected: (movie: Movie) -> Unit = {}
 ) {
     val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val cardWidth = (screenWidth - startPadding - endPadding) / 4f
 
     Column(
         modifier = modifier.focusGroup()
@@ -104,7 +109,7 @@ fun MoviesRow(
                         Modifier
                     }
                     MoviesRowItem(
-                        modifier = itemModifier.weight(1f),
+                        modifier = itemModifier.width(cardWidth),
                         index = index,
                         itemDirection = itemDirection,
                         onMovieSelected = {
@@ -140,6 +145,9 @@ fun ImmersiveListMoviesRow(
     onMovieFocused: (Movie) -> Unit = {}
 ) {
     val (lazyRow, firstItem) = remember { FocusRequester.createRefs() }
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+    val cardWidth = (screenWidth - startPadding - endPadding) / 4f
 
     Column(
         modifier = modifier.focusGroup()
@@ -179,7 +187,7 @@ fun ImmersiveListMoviesRow(
                         Modifier
                     }
                     MoviesRowItem(
-                        modifier = itemModifier.weight(1f),
+                        modifier = itemModifier.width(cardWidth),
                         index = index,
                         itemDirection = itemDirection,
                         onMovieSelected = {

@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens.home
 
 import androidx.compose.animation.AnimatedVisibility
@@ -7,8 +5,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -28,7 +24,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Offset
@@ -55,7 +50,6 @@ import coil.compose.AsyncImage
 import mn.univision.secretroom.R
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.util.StringConstants
-import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
 import mn.univision.secretroom.presentation.theme.SecretRoomButtonShape
 import mn.univision.secretroom.presentation.utils.Padding
 import mn.univision.secretroom.presentation.utils.handleDPadKeyEvents
@@ -76,7 +70,7 @@ fun FeaturedMoviesCarousel(
 ) {
     val carouselState = rememberSaveable(saver = CarouselSaver) { CarouselState(0) }
     var isCarouselFocused by remember { mutableStateOf(false) }
-    val alpha = if (isCarouselFocused) {
+    if (isCarouselFocused) {
         1f
     } else {
         0f
@@ -84,13 +78,13 @@ fun FeaturedMoviesCarousel(
 
     Carousel(
         modifier = modifier
-            .padding(start = padding.start, end = padding.start, top = padding.top)
-            .border(
-                width = SecretRoomBorderWidth,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha),
-                shape = ShapeDefaults.Medium,
-            )
-            .clip(ShapeDefaults.Medium)
+//            .padding(start = padding.start, end = padding.start, top = padding.top)
+//            .border(
+//                width = SecretRoomBorderWidth,
+//                color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha),
+//                shape = ShapeDefaults.Medium,
+//            )
+//            .clip(ShapeDefaults.Medium)
             .onFocusChanged {
                 // Because the carousel itself never gets the focus
                 isCarouselFocused = it.hasFocus
@@ -137,17 +131,16 @@ private fun BoxScope.CarouselIndicator(
 ) {
     Box(
         modifier = modifier
-            .padding(32.dp)
-            .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f))
+            .padding(4.dp)
             .graphicsLayer {
                 clip = true
                 shape = ShapeDefaults.ExtraSmall
             }
-            .align(Alignment.BottomEnd)
+            .align(Alignment.BottomCenter)
     ) {
         CarouselDefaults.IndicatorRow(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
+                .align(Alignment.BottomCenter)
                 .padding(8.dp),
             itemCount = itemCount,
             activeItemIndex = activeItemIndex,
@@ -163,13 +156,13 @@ private fun CarouselItemForeground(
 ) {
     Box(
         modifier = modifier,
-        contentAlignment = Alignment.BottomStart
+        contentAlignment = Alignment.CenterStart
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(32.dp),
-            verticalArrangement = Arrangement.Bottom
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = movie.name,

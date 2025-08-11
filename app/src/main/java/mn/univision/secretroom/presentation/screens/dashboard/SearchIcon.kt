@@ -4,7 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +21,7 @@ import androidx.tv.material3.Surface
 import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
 
 @Composable
-fun UserAvatar(
+fun SearchIcon(
     selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -56,7 +56,7 @@ fun UserAvatar(
             },
     ) {
         Icon(
-            imageVector = Icons.Default.AccountCircle,
+            imageVector = Icons.Default.Search,
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
         )
