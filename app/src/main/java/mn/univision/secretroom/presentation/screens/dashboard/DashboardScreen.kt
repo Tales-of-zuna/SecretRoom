@@ -1,10 +1,9 @@
-
-
 package mn.univision.secretroom.presentation.screens.dashboard
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -25,6 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -150,11 +151,22 @@ fun DashboardScreen(
             }
         }
 
+        
+        val gradientBrush = Brush.verticalGradient(
+            colors = listOf(
+                Color.Black,
+                Color.Transparent
+            ),
+            startY = 0f,
+            endY = Float.POSITIVE_INFINITY
+        )
+
         DashboardTopBar(
             modifier = Modifier
                 .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
                 .onSizeChanged { topBarHeightPx = it.height }
                 .onFocusChanged { isTopBarFocused = it.hasFocus }
+                .background(gradientBrush)
                 .padding(
                     horizontal = ParentPadding.calculateStartPadding(
                         LocalLayoutDirection.current

@@ -1,6 +1,5 @@
 package mn.univision.secretroom.presentation.screens.dashboard
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,7 +43,7 @@ import mn.univision.secretroom.presentation.theme.IconSize
 import mn.univision.secretroom.presentation.theme.LexendExa
 import mn.univision.secretroom.presentation.utils.occupyScreenSize
 
-val TopBarTabs = Screens.entries.toList().filter { it.isTabItem }
+val TopBarTabs = Screens.entries.toList().filter { it.isTabItem && it != Screens.Search }
 
 val TopBarFocusRequesters = List(size = TopBarTabs.size + 2) { FocusRequester() }
 
@@ -61,12 +60,14 @@ fun DashboardTopBar(
     onScreenSelection: (screen: Screens) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
+
+
+
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp)
-                .background(MaterialTheme.colorScheme.surface)
+
                 .focusRestorer(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -81,9 +82,7 @@ fun DashboardTopBar(
             ) {
                 Spacer(modifier = Modifier.width(20.dp))
                 TabRow(
-                    selectedTabIndex = if (selectedTabIndex >= 0) selectedTabIndex else -1,
-                    indicator = { _, _ ->
-                    },
+                    selectedTabIndex = if (selectedTabIndex >= 0 && selectedTabIndex < screens.size) selectedTabIndex else -1,
                     separator = { Spacer(modifier = Modifier) }
                 ) {
                     screens.forEachIndexed { index, screen ->
@@ -91,16 +90,26 @@ fun DashboardTopBar(
                             val isSelected = index == selectedTabIndex
                             var isFocused by remember { mutableStateOf(false) }
 
+                            val alpha = when {
+                                isSelected -> 1f
+                                isFocused -> 0.8f
+                                else -> 0.6f
+                            }
+
                             Tab(
                                 modifier = Modifier
                                     .height(32.dp)
                                     .focusRequester(focusRequesters[index + 2])
-                                    .alpha(if (isSelected || isFocused) 1f else 0.6f)
-                                    .onFocusChanged {
-                                        isFocused = it.isFocused || it.hasFocus
+                                    .alpha(alpha)
+                                    .onFocusChanged { focusState ->
+                                        isFocused = focusState.isFocused
                                     },
                                 selected = isSelected,
-                                onFocus = { onScreenSelection(screen) },
+                                onFocus = {
+                                    if (!isSelected) {
+                                        onScreenSelection(screen)
+                                    }
+                                },
                                 onClick = { focusManager.moveFocus(FocusDirection.Down) },
                             ) {
                                 if (screen.tabIcon != null) {
@@ -131,7 +140,7 @@ fun DashboardTopBar(
 
             SearchIcon(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(16.dp)
                     .semantics {
                         contentDescription = StringConstants.Composable
                             .ContentDescription.DashboardSearchButton
@@ -146,7 +155,7 @@ fun DashboardTopBar(
 
             UserAvatar(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(16.dp)
                     .semantics {
                         contentDescription =
                             StringConstants.Composable.ContentDescription.UserAvatar
@@ -174,6 +183,7 @@ private fun SecretRoomLogo(
             modifier = Modifier
                 .size(IconSize)
         )
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = stringResource(R.string.brand_logo_text),
             style = MaterialTheme.typography.titleSmall,

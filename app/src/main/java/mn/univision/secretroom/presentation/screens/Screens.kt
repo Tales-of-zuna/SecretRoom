@@ -1,7 +1,5 @@
 package mn.univision.secretroom.presentation.screens
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import mn.univision.secretroom.presentation.screens.categories.CategoryMovieListScreen
 import mn.univision.secretroom.presentation.screens.movies.MovieDetailsScreen
@@ -19,7 +17,7 @@ enum class Screens(
     Movies(isTabItem = true, title = "Кино сан"),
     Shows(isTabItem = true, title = "Багц"),
     Favourites(isTabItem = true, title = "Дуртай"),
-    Search(tabIcon = Icons.Default.Search),
+    Search,
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
     Dashboard,
