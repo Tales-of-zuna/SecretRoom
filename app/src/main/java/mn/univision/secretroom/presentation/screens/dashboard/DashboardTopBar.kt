@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens.dashboard
 
 import androidx.compose.foundation.background
@@ -44,8 +42,8 @@ import mn.univision.secretroom.R
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.theme.IconSize
-import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 import mn.univision.secretroom.presentation.theme.LexendExa
+import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 import mn.univision.secretroom.presentation.utils.occupyScreenSize
 
 val TopBarTabs = Screens.entries.toList().filter { it.isTabItem }
@@ -74,19 +72,12 @@ fun DashboardTopBar(
                 .focusRestorer(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            UserAvatar(
+            SecretRoomLogo(
                 modifier = Modifier
-                    .size(32.dp)
-                    .focusRequester(focusRequesters[0])
-                    .semantics {
-                        contentDescription =
-                            StringConstants.Composable.ContentDescription.UserAvatar
-                    },
-                selected = selectedTabIndex == PROFILE_SCREEN_INDEX,
-                onClick = {
-                    onScreenSelection(Screens.Profile)
-                }
+                    .alpha(0.75f)
+                    .padding(end = 8.dp),
             )
+            Spacer(modifier = Modifier.weight(1f))
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -133,7 +124,7 @@ fun DashboardTopBar(
                                         modifier = Modifier
                                             .occupyScreenSize()
                                             .padding(horizontal = 16.dp),
-                                        text = screen(),
+                                        text = screen.title ?: stringResource(R.string.app_name),
                                         style = MaterialTheme.typography.titleSmall.copy(
                                             color = LocalContentColor.current
                                         )
@@ -145,10 +136,18 @@ fun DashboardTopBar(
                 }
             }
             Spacer(modifier = Modifier.weight(1f))
-            SecretRoomLogo(
+            UserAvatar(
                 modifier = Modifier
-                    .alpha(0.75f)
-                    .padding(end = 8.dp),
+                    .size(32.dp)
+                    .focusRequester(focusRequesters[0])
+                    .semantics {
+                        contentDescription =
+                            StringConstants.Composable.ContentDescription.UserAvatar
+                    },
+                selected = selectedTabIndex == PROFILE_SCREEN_INDEX,
+                onClick = {
+                    onScreenSelection(Screens.Profile)
+                }
             )
         }
     }

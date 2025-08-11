@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens
 
 import androidx.compose.material.icons.Icons
@@ -12,14 +10,15 @@ import mn.univision.secretroom.presentation.screens.videoPlayer.VideoPlayerScree
 enum class Screens(
     private val args: List<String>? = null,
     val isTabItem: Boolean = false,
-    val tabIcon: ImageVector? = null
+    val tabIcon: ImageVector? = null,
+    val title: String? = null
 ) {
     Profile,
-    Home(isTabItem = true),
-    Categories(isTabItem = true),
-    Movies(isTabItem = true),
-    Shows(isTabItem = true),
-    Favourites(isTabItem = true),
+    Home(isTabItem = true, title = "Нүүр"),
+    Categories(isTabItem = true, title = "Ангилал"),
+    Movies(isTabItem = true, title = "Кино сан"),
+    Shows(isTabItem = true, title = "Багц"),
+    Favourites(isTabItem = true, title = "Дуртай"),
     Search(isTabItem = true, tabIcon = Icons.Default.Search),
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
