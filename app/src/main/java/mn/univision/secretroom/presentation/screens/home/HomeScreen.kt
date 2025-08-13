@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens.home
 
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,9 +33,9 @@ fun HomeScreen(
     goToVideoPlayer: (movie: Movie) -> Unit,
     onScroll: (isTopBarVisible: Boolean) -> Unit,
     isTopBarVisible: Boolean,
-    homeScreeViewModel: HomeScreeViewModel = hiltViewModel(),
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel(),
 ) {
-    val uiState by homeScreeViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by homeScreenViewModel.uiState.collectAsStateWithLifecycle()
 
     when (val s = uiState) {
         is HomeScreenUiState.Ready -> {
@@ -79,7 +77,7 @@ private fun Catalog(
     val shouldShowTopBar by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex == 0 &&
-                lazyListState.firstVisibleItemScrollOffset < 300
+                    lazyListState.firstVisibleItemScrollOffset < 300
         }
     }
 
@@ -93,7 +91,7 @@ private fun Catalog(
     LazyColumn(
         state = lazyListState,
         contentPadding = PaddingValues(bottom = 108.dp),
-        // Setting overscan margin to bottom to ensure the last row's visibility
+
         modifier = modifier,
     ) {
 
@@ -116,7 +114,8 @@ private fun Catalog(
                 modifier = Modifier.padding(top = 16.dp),
                 movieList = trendingMovies,
                 title = StringConstants.Composable.HomeScreenTrendingTitle,
-                onMovieSelected = onMovieClick
+                onMovieSelected = onMovieClick,
+                showItemTitle = false
             )
         }
         item(contentType = "Top10MoviesList") {
