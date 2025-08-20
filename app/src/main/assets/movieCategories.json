@@ -1,42 +1,42 @@
 [
   {
     "id": "100",
-    "name": "Action"
+    "name": "Хосын"
   },
   {
     "id": "101",
-    "name": "Drama"
+    "name": "Гурвал"
   },
   {
     "id": "102",
-    "name": "Comedy"
+    "name": "Homemade"
   },
   {
     "id": "103",
-    "name": "Horror"
+    "name": "Ажил дээр"
   },
   {
     "id": "104",
-    "name": "Fantasy"
+    "name": "Монгол"
   },
   {
     "id": "105",
-    "name": "Romance"
+    "name": "Гадаад"
   },
   {
     "id": "106",
-    "name": "Documentary"
+    "name": "Эмчийн нууц"
   },
   {
     "id": "107",
-    "name": "Animation"
+    "name": "Донтолт"
   },
   {
     "id": "108",
-    "name": "Thriller"
+    "name": "Халамж"
   },
   {
     "id": "109",
-    "name": "Adventure"
+    "name": "Playboy"
   }
 ]

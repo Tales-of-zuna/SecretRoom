@@ -23,6 +23,7 @@ import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.entities.MovieList
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.common.Error
+import mn.univision.secretroom.presentation.common.FeaturedMoviesCarousel
 import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.common.MoviesRow
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
@@ -39,7 +40,7 @@ fun HomeScreen(
 
     when (val s = uiState) {
         is HomeScreenUiState.Ready -> {
-            Catalog(
+            Content(
                 featuredMovies = s.featuredMovieList,
                 trendingMovies = s.trendingMovieList,
                 top10Movies = s.top10MovieList,
@@ -58,7 +59,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun Catalog(
+private fun Content(
     featuredMovies: MovieList,
     trendingMovies: MovieList,
     top10Movies: MovieList,

@@ -34,7 +34,7 @@ fun FavouritesScreen(
             Loading(modifier = Modifier.fillMaxSize())
         }
         is FavouriteScreenUiState.Ready -> {
-            Catalog(
+            Content(
                 favouriteMovieList = s.favouriteMovieList,
                 onMovieClick = onMovieClick,
                 onScroll = onScroll,
@@ -49,7 +49,7 @@ fun FavouritesScreen(
 }
 
 @Composable
-private fun Catalog(
+private fun Content(
     favouriteMovieList: MovieList,
     filterList: FilterList,
     selectedFilterList: FilterList,

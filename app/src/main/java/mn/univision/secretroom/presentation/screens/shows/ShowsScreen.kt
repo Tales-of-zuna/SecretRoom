@@ -38,7 +38,7 @@ fun ShowsScreen(
         }
 
         is ShowScreenUiState.Ready -> {
-            Catalog(
+            Content(
                 tvShowList = currentState.tvShowList,
                 bingeWatchDramaList = currentState.bingeWatchDramaList,
                 onTVShowClick = onTVShowClick,
@@ -51,7 +51,7 @@ fun ShowsScreen(
 }
 
 @Composable
-private fun Catalog(
+private fun Content(
     tvShowList: MovieList,
     bingeWatchDramaList: MovieList,
     onTVShowClick: (movie: Movie) -> Unit,

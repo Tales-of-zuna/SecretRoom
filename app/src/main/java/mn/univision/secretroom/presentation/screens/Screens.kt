@@ -13,10 +13,13 @@ enum class Screens(
 ) {
     Profile,
     Home(isTabItem = true, title = "Нүүр"),
-    Categories(isTabItem = true, title = "Ангилал"),
-    Movies(isTabItem = true, title = "Кино сан"),
-    Shows(isTabItem = true, title = "Багц"),
-    Favourites(isTabItem = true, title = "Дуртай"),
+    Categories(isTabItem = true, title = "Ангилалууд"),
+    Tvod(isTabItem = true, title = "Кино сан"),
+    Svod(isTabItem = true, title = "Багц"),
+    Tv(isTabItem = true, title = "ТВ"),
+
+    //    Actors(isTabItem = true, title = "Жүжигчид"),
+//    Shop(isTabItem = true, title = "Дэлгүүр"),
     Search,
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),

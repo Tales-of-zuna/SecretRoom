@@ -46,12 +46,12 @@ import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.screens.categories.CategoriesScreen
-import mn.univision.secretroom.presentation.screens.favourites.FavouritesScreen
 import mn.univision.secretroom.presentation.screens.home.HomeScreen
-import mn.univision.secretroom.presentation.screens.movies.MoviesScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
-import mn.univision.secretroom.presentation.screens.shows.ShowsScreen
+import mn.univision.secretroom.presentation.screens.svod.SvodScreen
+import mn.univision.secretroom.presentation.screens.tv.TvScreen
+import mn.univision.secretroom.presentation.screens.tvod.TvodScreen
 import mn.univision.secretroom.presentation.utils.Padding
 
 val ParentPadding = PaddingValues(vertical = 16.dp, horizontal = 58.dp)
@@ -151,7 +151,7 @@ fun DashboardScreen(
             }
         }
 
-        
+
         val gradientBrush = Brush.verticalGradient(
             colors = listOf(
                 Color.Black,
@@ -250,27 +250,56 @@ private fun Body(
                 onScroll = updateTopBarVisibility
             )
         }
-        composable(Screens.Movies()) {
-            MoviesScreen(
+        composable(Screens.Tvod()) {
+            TvodScreen(
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                 onScroll = updateTopBarVisibility,
                 isTopBarVisible = isTopBarVisible
             )
         }
-        composable(Screens.Shows()) {
-            ShowsScreen(
-                onTVShowClick = { movie -> openMovieDetailsScreen(movie.id) },
+        composable(Screens.Svod()) {
+            SvodScreen(
+                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                 onScroll = updateTopBarVisibility,
                 isTopBarVisible = isTopBarVisible
             )
         }
-        composable(Screens.Favourites()) {
-            FavouritesScreen(
-                onMovieClick = openMovieDetailsScreen,
+        composable(Screens.Tv()) {
+            TvScreen(
+                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                 onScroll = updateTopBarVisibility,
                 isTopBarVisible = isTopBarVisible
             )
         }
+//        9tsag  10r horoo amgalan zah yvah zamd zamiin urd naran supermaket zuun talaar ergeed 2 davhar shar bair zuun tald hashaa
+//        composable(Screens.Actors()) {
+//            ActorsScreen(
+//            )
+//        }
+//        composable(Screens.Shop()) {
+//            ShopScreen()
+//        }
+//        composable(Screens.Movies()) {
+//            MoviesScreen(
+//                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
+//                onScroll = updateTopBarVisibility,
+//                isTopBarVisible = isTopBarVisible
+//            )
+//        }
+//        composable(Screens.Shows()) {
+//            ShowsScreen(
+//                onTVShowClick = { movie -> openMovieDetailsScreen(movie.id) },
+//                onScroll = updateTopBarVisibility,
+//                isTopBarVisible = isTopBarVisible
+//            )
+//        }
+//        composable(Screens.Favourites()) {
+//            FavouritesScreen(
+//                onMovieClick = openMovieDetailsScreen,
+//                onScroll = updateTopBarVisibility,
+//                isTopBarVisible = isTopBarVisible
+//            )
+//        }
         composable(Screens.Search()) {
             SearchScreen(
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },

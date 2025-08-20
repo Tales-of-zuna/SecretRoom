@@ -34,7 +34,7 @@ fun MoviesScreen(
     when (val s = uiState) {
         is MoviesScreenUiState.Loading -> Loading()
         is MoviesScreenUiState.Ready -> {
-            Catalog(
+            Content(
                 movieList = s.movieList,
                 popularFilmsThisWeek = s.popularFilmsThisWeek,
                 onMovieClick = onMovieClick,
@@ -47,7 +47,7 @@ fun MoviesScreen(
 }
 
 @Composable
-private fun Catalog(
+private fun Content(
     movieList: MovieList,
     popularFilmsThisWeek: MovieList,
     onMovieClick: (movie: Movie) -> Unit,

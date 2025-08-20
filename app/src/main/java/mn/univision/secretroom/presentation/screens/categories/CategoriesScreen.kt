@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens.categories
 
 import androidx.compose.animation.AnimatedContent
@@ -54,7 +52,7 @@ fun CategoriesScreen(
         }
 
         is CategoriesScreenUiState.Ready -> {
-            Catalog(
+            Content(
                 gridColumns = gridColumns,
                 movieCategories = s.categoryList,
                 onCategoryClick = onCategoryClick,
@@ -67,7 +65,7 @@ fun CategoriesScreen(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-private fun Catalog(
+private fun Content(
     movieCategories: MovieCategoryList,
     modifier: Modifier = Modifier,
     gridColumns: Int = 4,
@@ -79,7 +77,7 @@ private fun Catalog(
     val shouldShowTopBar by remember {
         derivedStateOf {
             lazyGridState.firstVisibleItemIndex == 0 &&
-                lazyGridState.firstVisibleItemScrollOffset < 100
+                    lazyGridState.firstVisibleItemScrollOffset < 100
         }
     }
     LaunchedEffect(shouldShowTopBar) {

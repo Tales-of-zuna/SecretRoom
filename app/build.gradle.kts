@@ -72,5 +72,7 @@ dependencies {
     implementation(libs.hilt.compiler)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.com.google.devtools.ksp.gradle.plugin)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
     ksp(libs.hilt.compiler)
 }
