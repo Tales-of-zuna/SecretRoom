@@ -1,23 +1,72 @@
 package mn.univision.secretroom.data.remote
 
-import retrofit2.http.Body
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthApiService {
-    @POST("auth/token")
-    suspend fun getToken(@Body body: Map<String, String>): TokenResponse
+    @GET("RTEFacade/Login")
+    suspend fun login(
+        @Query("client") client: String = "json",
+        @Query("mac_address") macAddress: String,
+        @Query("serial_number") serialNumber: String
+    ): Response<LoginResponse>
 
-    @GET("household")
-    suspend fun getHouseholdId(@Header("Authorization") bearerToken: String): HouseholdResponse
+    @GET("RTEFacade/GetHousehold")
+    suspend fun getHousehold(
+        @Query("client") client: String = "json",
+        @Header("Cookie") cookie: String
+    ): Response<HouseholdResponse>
 }
 
-data class TokenResponse(
-    val accessToken: String,
-    val expiresIn: Long
+data class LoginResponse(
+    val metadata: LoginMetadata,
+    val response: LoginResponseData
+)
+
+data class LoginMetadata(
+    val request: String,
+    val timestamp: Long
+)
+
+data class LoginResponseData(
+    val id: String,
+    val message: String, // This contains the cookie
+    val status: String
 )
 
 data class HouseholdResponse(
-    val householdId: String
+    val metadata: HouseholdMetadata,
+    val response: HouseholdData
+)
+
+data class HouseholdMetadata(
+    val request: String,
+    val timestamp: Long
+)
+
+data class HouseholdData(
+    val id: Int,
+    val externalId: String,
+    val username: String,
+    val phone: String,
+    val timezone: String,
+    val languageCode: String,
+    val billingMethod: String,
+    val maxTerminals: Int,
+    val groups: List<SecurityGroup>,
+    val extrafields: List<Extrafield>
+)
+
+data class SecurityGroup(
+    val responseElementType: String,
+    val externalId: String,
+    val type: String
+)
+
+data class Extrafield(
+    val responseElementType: String,
+    val name: String,
+    val value: String
 )
