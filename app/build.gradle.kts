@@ -74,5 +74,6 @@ dependencies {
     implementation(libs.com.google.devtools.ksp.gradle.plugin)
     implementation(libs.converter.gson)
     implementation(libs.retrofit)
+    implementation(libs.androidx.datastore.preferences)
     ksp(libs.hilt.compiler)
 }

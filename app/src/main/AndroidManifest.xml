@@ -5,12 +5,12 @@
         android:name="android.software.leanback"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    
     <application
         android:name=".SecretRoomApplication"
         android:allowBackup="true"
