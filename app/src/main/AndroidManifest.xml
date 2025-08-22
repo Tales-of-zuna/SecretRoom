@@ -6,7 +6,11 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.nes.serialprovider.permission.READ_DATA" />
 
+    <queries>
+        <provider android:authorities="com.nes.serialprovider.DataShareProvider" />
+    </queries>
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />

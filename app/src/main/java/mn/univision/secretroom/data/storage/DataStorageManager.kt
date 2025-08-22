@@ -33,6 +33,7 @@ class DataStoreManager(private val context: Context) {
         context.dataStore.edit { prefs -> prefs[KEY_HOUSEHOLD] = id }
     }
 
+
     suspend fun saveCookie(cookie: String) {
         context.dataStore.edit { prefs -> prefs[KEY_COOKIE] = cookie }
     }

@@ -32,7 +32,7 @@ data class LoginMetadata(
 
 data class LoginResponseData(
     val id: String,
-    val message: String, // This contains the cookie
+    val message: String,
     val status: String
 )
 
@@ -56,7 +56,10 @@ data class HouseholdData(
     val billingMethod: String,
     val maxTerminals: Int,
     val groups: List<SecurityGroup>,
-    val extrafields: List<Extrafield>
+    val extrafields: List<Extrafield>,
+    val parentalPin: String? = null,
+    val type: Int? = null,
+    val discount: Double? = null
 )
 
 data class SecurityGroup(

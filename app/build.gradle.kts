@@ -75,5 +75,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.retrofit)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.androidx.material3)
     ksp(libs.hilt.compiler)
 }

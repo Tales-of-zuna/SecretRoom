@@ -104,10 +104,7 @@ private fun Content(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(324.dp)
-                /*
-                 Setting height for the FeaturedMovieCarousel to keep it rendered with same height,
-                 regardless of the top bar's visibility
-                 */
+
             )
         }
         item(contentType = "MoviesRow") {

@@ -20,8 +20,8 @@ class AuthRepository @Inject constructor(
     companion object {
         private const val TAG = "AuthRepository"
         private val CONTENT_URI = "content://com.nes.serialprovider.DataShareProvider".toUri()
-        private const val ETHER_MAC = "ether_mac"
-        private const val SERIAL_NUMBER = "serial_number"
+        private const val ETHER_MAC = "ethernetMac"
+        private const val SERIAL_NUMBER = "serialnumber"
     }
 
     sealed class AuthResult {
@@ -42,9 +42,12 @@ class AuthRepository @Inject constructor(
             dataStore.saveMacAddress(macAddress)
             dataStore.saveSerialNumber(serialNumber)
 
+            Log.d(TAG, "MAC Address: $macAddress, Serial Number: $serialNumber")
+
             val loginResponse = api.login(
-                macAddress = macAddress,
-                serialNumber = serialNumber
+//                macAddress = macAddress,
+//                serialNumber = serialNumber
+                macAddress = "D4:CF:F9:20:D0:06", serialNumber = "QA99999986111829"
             )
 
             if (!loginResponse.isSuccessful) {
@@ -53,13 +56,12 @@ class AuthRepository @Inject constructor(
 
             val loginBody = loginResponse.body()
             if (loginBody?.response?.status != "SUCCESS") {
-                return AuthResult.Error("Login failed: ${loginBody?.response?.message}")
+                return AuthResult.Error("Login status failed: ${loginBody?.response?.message}")
             }
+            val cookieValue = loginBody.response.message
+            dataStore.saveCookie(cookieValue)
 
-            val cookie = loginBody.response.message
-            dataStore.saveCookie(cookie)
-
-            val householdResponse = api.getHousehold(cookie = cookie)
+            val householdResponse = api.getHousehold(cookie = cookieValue)
 
             if (!householdResponse.isSuccessful) {
                 return AuthResult.Error("Failed to get household: ${householdResponse.message()}")
