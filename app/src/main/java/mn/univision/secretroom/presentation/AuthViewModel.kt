@@ -8,11 +8,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import mn.univision.secretroom.data.repositories.AuthRepository
+import mn.univision.secretroom.data.repositories.ViewsRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository, private val viewsRepository: ViewsRepository
 ) : ViewModel() {
 
     private val _authState = MutableStateFlow<AuthState>(AuthState.Initial)
@@ -44,6 +45,7 @@ class AuthViewModel @Inject constructor(
             when (val result = authRepository.performAuthentication()) {
                 is AuthRepository.AuthResult.Success -> {
                     _authState.value = AuthState.Success
+                    viewsRepository.fetchViews()
                 }
 
                 is AuthRepository.AuthResult.Error -> {

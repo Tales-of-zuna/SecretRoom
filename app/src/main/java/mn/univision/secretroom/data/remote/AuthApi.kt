@@ -1,9 +1,11 @@
 package mn.univision.secretroom.data.remote
 
+import mn.univision.secretroom.data.models.ViewItem
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface AuthApiService {
     @GET("RTEFacade/Login")
@@ -12,6 +14,13 @@ interface AuthApiService {
         @Query("mac_address") macAddress: String,
         @Query("serial_number") serialNumber: String
     ): Response<LoginResponse>
+
+    @GET
+    suspend fun getViews(
+        @Url url: String = "https://looktv.mn/appmgr/views.json",
+        @Header("Cookie") cookie: String? = null
+    ): Response<List<ViewItem>>
+
 
     @GET("RTEFacade/GetHousehold")
     suspend fun getHousehold(

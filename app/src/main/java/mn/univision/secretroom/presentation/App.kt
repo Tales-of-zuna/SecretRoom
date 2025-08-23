@@ -1,12 +1,14 @@
-
-
 package mn.univision.secretroom.presentation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,11 +22,39 @@ import mn.univision.secretroom.presentation.screens.videoPlayer.VideoPlayerScree
 
 @Composable
 fun App(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit, navigationViewModel: NavigationViewModel = hiltViewModel()
 ) {
 
     val navController = rememberNavController()
     var isComingBackFromDifferentScreen by remember { mutableStateOf(false) }
+    val viewsState by navigationViewModel.viewsState.collectAsStateWithLifecycle()
+
+    // Load views when App starts
+    LaunchedEffect(Unit) {
+        navigationViewModel.loadViews()
+    }
+
+    // Log or handle the views state
+    LaunchedEffect(viewsState) {
+        when (viewsState) {
+            is NavigationViewModel.ViewsState.Success -> {
+                Log.d(
+                    "App",
+                    "Views loaded successfully: ${(viewsState as NavigationViewModel.ViewsState.Success).views}"
+                )
+            }
+
+            is NavigationViewModel.ViewsState.Error -> {
+                Log.e(
+                    "App",
+                    "Failed to load views: ${(viewsState as NavigationViewModel.ViewsState.Error).message}"
+                )
+            }
+
+            else -> { /* Handle other states */
+            }
+        }
+    }
 
     NavHost(
         navController = navController,

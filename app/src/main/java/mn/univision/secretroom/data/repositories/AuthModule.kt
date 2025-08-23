@@ -23,4 +23,13 @@ object AuthModule {
     ): AuthRepository {
         return AuthRepository(api, dataStore, context)
     }
+
+    @Provides
+    @Singleton
+    fun provideViewsRepository(
+        api: AuthApiService,
+        dataStore: DataStoreManager
+    ): ViewsRepository {
+        return ViewsRepository(api, dataStore)
+    }
 }
