@@ -1,49 +1,57 @@
 package mn.univision.secretroom.data.models
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
+import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 
-
-@Serializable
 data class ViewItem(
-    val _id: String,
-    val name: String,
-    val kids: Boolean? = null,
-    val __v: Int? = null,
-    val title: ViewTitle? = null,
-    val items: List<ViewSubItem>? = null
+    @SerializedName("_id") val _id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("kids") val kids: Boolean? = null,
+    @SerializedName("__v") val __v: Int? = null,
+    @SerializedName("title") val title: ViewTitle? = null,
+    @SerializedName("items") val items: List<ViewSubItem>? = null
 )
 
-@Serializable
 data class ViewTitle(
-    val mn: String? = null,
-    val en: String? = null
+    @SerializedName("mn") val mn: String? = null,
+    @SerializedName("en") val en: String? = null
 )
 
-@Serializable
 data class ViewSubItem(
-    val _id: String,
-    val uri: String? = null,
-    val type: String? = null,
-    val name: String? = null,
-    val cache: Boolean? = null,
-    val __v: Int? = null,
-    val title: ViewTitle? = null,
-    val items: List<ViewSubItem>? = emptyList(),  // Changed from Any to ViewSubItem
-    val filter: ViewFilter? = null,
-    val value: List<String>? = null,
-    val actions: List<JsonElement>? = emptyList(),  // Using JsonElement for truly dynamic content
-    val resources: List<ViewResource>? = null
-)
+    @SerializedName("_id") val _id: String,
+    @SerializedName("uri") val uri: String? = null,
+    @SerializedName("type") val type: String? = null,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("cache") val cache: Boolean? = null,
+    @SerializedName("__v") val __v: Int? = null,
+    @SerializedName("title") val title: ViewTitle? = null,
+    @SerializedName("items") val items: List<ViewSubItem>? = emptyList(),
+    @SerializedName("filter") val filter: ViewFilter? = null,
+    @SerializedName("value") val value: JsonElement? = null,
+    @SerializedName("actions") val actions: List<JsonElement>? = emptyList(),
+    @SerializedName("resources") val resources: List<ViewResource>? = null
+) {
+    fun getValueAsList(): List<String> {
+        return when {
+            value == null -> emptyList()
+            value.isJsonArray -> {
+                value.asJsonArray.mapNotNull {
+                    if (it.isJsonPrimitive) it.asString else null
+                }
+            }
 
-@Serializable
+            value.isJsonPrimitive -> listOf(value.asString)
+            else -> emptyList()
+        }
+    }
+}
+
 data class ViewFilter(
-    val exclude: List<JsonElement>? = emptyList(),  // Using JsonElement
-    val include: List<JsonElement>? = emptyList()   // Using JsonElement
+    @SerializedName("exclude") val exclude: List<JsonElement>? = emptyList(),
+    @SerializedName("include") val include: List<JsonElement>? = emptyList()
 )
 
-@Serializable
 data class ViewResource(
-    val uri: String? = null,
-    val _id: String? = null
+    @SerializedName("uri") val uri: String? = null,
+    @SerializedName("_id") val _id: String? = null
 )
