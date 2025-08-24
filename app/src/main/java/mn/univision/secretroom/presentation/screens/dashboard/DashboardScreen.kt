@@ -259,9 +259,9 @@ private fun Body(
         }
         composable(Screens.Svod()) {
             SvodScreen(
-                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
-                onScroll = updateTopBarVisibility,
-                isTopBarVisible = isTopBarVisible
+//                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
+//                onScroll = updateTopBarVisibility,
+//                isTopBarVisible = isTopBarVisible
             )
         }
         composable(Screens.Tv()) {
@@ -271,7 +271,6 @@ private fun Body(
                 isTopBarVisible = isTopBarVisible
             )
         }
-//        9tsag  10r horoo amgalan zah yvah zamd zamiin urd naran supermaket zuun talaar ergeed 2 davhar shar bair zuun tald hashaa
 //        composable(Screens.Actors()) {
 //            ActorsScreen(
 //            )

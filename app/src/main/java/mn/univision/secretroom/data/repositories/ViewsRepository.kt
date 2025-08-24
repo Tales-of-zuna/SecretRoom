@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.flow
 import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.data.remote.AuthApiService
 import mn.univision.secretroom.data.storage.DataStoreManager
+import mn.univision.secretroom.data.storage.ViewsDataManager
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ViewsRepository @Inject constructor(
     private val api: AuthApiService,
-    private val dataStore: DataStoreManager
+    private val dataStore: DataStoreManager,
+    private val viewsDataManager: ViewsDataManager // Add this
 ) {
     companion object {
         private const val TAG = "ViewsRepository"
@@ -28,8 +30,14 @@ class ViewsRepository @Inject constructor(
 
     suspend fun fetchViews(): ViewsResult {
         return try {
-            val cookie = dataStore.cookieFlow.first()
+            // Try to load from cache first
+            val cachedViews = viewsDataManager.loadCachedViews()
+            if (cachedViews != null && cachedViews.isNotEmpty()) {
+                Log.d(TAG, "Loaded views from cache: ${cachedViews.size} items")
+                return ViewsResult.Success(cachedViews)
+            }
 
+            val cookie = dataStore.cookieFlow.first()
             if (cookie.isNullOrEmpty()) {
                 return ViewsResult.Error("Authentication required. No cookie found.")
             }
@@ -44,10 +52,11 @@ class ViewsRepository @Inject constructor(
             if (response.isSuccessful) {
                 val viewsData = response.body()
                 if (viewsData != null) {
-                    Log.d(
-                        TAG,
-                        "Successfully fetched views: ${viewsData.size} items"
-                    )
+                    Log.d(TAG, "Successfully fetched views: ${viewsData.size} items")
+
+                    // Save to cache
+                    viewsDataManager.saveViews(viewsData)
+
                     ViewsResult.Success(viewsData)
                 } else {
                     Log.e(TAG, "Views response body is null")

@@ -1,4 +1,4 @@
-package mn.univision.secretroom.data.repositories
+package mn.univision.secretroom.data.di
 
 import android.content.Context
 import dagger.Module
@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import mn.univision.secretroom.data.remote.AuthApiService
+import mn.univision.secretroom.data.repositories.AuthRepository
 import mn.univision.secretroom.data.storage.DataStoreManager
 import javax.inject.Singleton
 
@@ -24,12 +25,4 @@ object AuthModule {
         return AuthRepository(api, dataStore, context)
     }
 
-    @Provides
-    @Singleton
-    fun provideViewsRepository(
-        api: AuthApiService,
-        dataStore: DataStoreManager
-    ): ViewsRepository {
-        return ViewsRepository(api, dataStore)
-    }
 }

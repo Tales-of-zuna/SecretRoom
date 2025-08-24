@@ -1,4 +1,4 @@
-package mn.univision.secretroom.data.remote
+package mn.univision.secretroom.data.di
 
 import android.content.Context
 import dagger.Module
@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import mn.univision.secretroom.data.remote.AuthApiService
 import mn.univision.secretroom.data.storage.DataStoreManager
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
