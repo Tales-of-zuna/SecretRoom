@@ -5,17 +5,17 @@ import mn.univision.secretroom.presentation.screens.categories.CategoryMovieList
 import mn.univision.secretroom.presentation.screens.movies.MovieDetailsScreen
 import mn.univision.secretroom.presentation.screens.videoPlayer.VideoPlayerScreen
 
+
 enum class Screens(
     private val args: List<String>? = null,
     val isTabItem: Boolean = false,
     val tabIcon: ImageVector? = null,
-    val title: String? = null
+    val title: String? = null,
 ) {
 
-    //   these are supposed to be dynamic pages
-    Home(isTabItem = true, title = "Нүүр"),
+    //   these are supposed to be dynamic pages from views
+//    Home(isTabItem = true, title = "Нүүр"),
 //    Categories(isTabItem = true, title = "Ангилалууд"),
-
     //    Tvod(isTabItem = true, title = "Кино сан"),
 //    Svod(isTabItem = true, title = "Багц"),
 //    Tv(isTabItem = true, title = "ТВ"),
@@ -26,7 +26,9 @@ enum class Screens(
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
     Dashboard,
+    DynamicRoute(listOf("dynamicRouteId")),
     VideoPlayer(listOf(VideoPlayerScreen.MovieIdBundleKey));
+
 
     operator fun invoke(): String {
         val argList = StringBuilder()
