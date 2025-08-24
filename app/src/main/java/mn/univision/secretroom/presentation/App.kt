@@ -29,12 +29,10 @@ fun App(
     var isComingBackFromDifferentScreen by remember { mutableStateOf(false) }
     val viewsState by navigationViewModel.viewsState.collectAsStateWithLifecycle()
 
-    // Load views when App starts
     LaunchedEffect(Unit) {
         navigationViewModel.loadViews()
     }
 
-    // Log or handle the views state
     LaunchedEffect(viewsState) {
         when (viewsState) {
             is NavigationViewModel.ViewsState.Success -> {

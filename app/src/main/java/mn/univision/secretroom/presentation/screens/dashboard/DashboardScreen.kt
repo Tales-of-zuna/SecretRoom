@@ -46,12 +46,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.screens.categories.CategoriesScreen
 import mn.univision.secretroom.presentation.screens.home.HomeScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
-import mn.univision.secretroom.presentation.screens.tv.TvScreen
 import mn.univision.secretroom.presentation.screens.tvod.TvodScreen
 import mn.univision.secretroom.presentation.utils.Padding
 
@@ -85,6 +85,8 @@ fun DashboardScreen(
     var isTopBarVisible by remember { mutableStateOf(true) }
     var isTopBarFocused by remember { mutableStateOf(false) }
     val viewsState by viewModel.viewsState.collectAsStateWithLifecycle()
+    val views = (viewsState as? ViewsState.Success)?.views ?: emptyList()
+    val dynamicPages = views.filter { it.name.lowercase() != "search" && it.name != "settings" }
     var currentDestination: String? by remember { mutableStateOf(null) }
     val currentTopBarSelectedTabIndex by remember(currentDestination) {
         derivedStateOf {
@@ -157,7 +159,7 @@ fun DashboardScreen(
 
             is ViewsState.Success -> {
                 DashboardTopBar(
-                    views = (viewsState as ViewsState.Success).views,
+                    dynamicPages = dynamicPages,
                     modifier = Modifier
                         .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
                         .onSizeChanged { topBarHeightPx = it.height }
@@ -187,6 +189,7 @@ fun DashboardScreen(
                     updateTopBarVisibility = { isTopBarVisible = it },
                     isTopBarVisible = isTopBarVisible,
                     navController = navController,
+                    dynamicPages = dynamicPages,
                     modifier = Modifier.offset(y = navHostTopPaddingDp),
                 )
             }
@@ -229,6 +232,7 @@ private fun Body(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     isTopBarVisible: Boolean = true,
+    dynamicPages: List<ViewItem> = emptyList()
 ) =
     NavHost(
         modifier = modifier,
@@ -268,41 +272,14 @@ private fun Body(
 //                isTopBarVisible = isTopBarVisible
 //            )
 //        }
-        composable(Screens.Tv()) {
-            TvScreen(
-                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
-                onScroll = updateTopBarVisibility,
-                isTopBarVisible = isTopBarVisible
-            )
-        }
-//        composable(Screens.Actors()) {
-//            ActorsScreen(
-//            )
-//        }
-//        composable(Screens.Shop()) {
-//            ShopScreen()
-//        }
-//        composable(Screens.Movies()) {
-//            MoviesScreen(
+//        composable(Screens.Tv()) {
+//            TvScreen(
 //                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
 //                onScroll = updateTopBarVisibility,
 //                isTopBarVisible = isTopBarVisible
 //            )
 //        }
-//        composable(Screens.Shows()) {
-//            ShowsScreen(
-//                onTVShowClick = { movie -> openMovieDetailsScreen(movie.id) },
-//                onScroll = updateTopBarVisibility,
-//                isTopBarVisible = isTopBarVisible
-//            )
-//        }
-//        composable(Screens.Favourites()) {
-//            FavouritesScreen(
-//                onMovieClick = openMovieDetailsScreen,
-//                onScroll = updateTopBarVisibility,
-//                isTopBarVisible = isTopBarVisible
-//            )
-//        }
+
         composable(Screens.Search()) {
             SearchScreen(
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },

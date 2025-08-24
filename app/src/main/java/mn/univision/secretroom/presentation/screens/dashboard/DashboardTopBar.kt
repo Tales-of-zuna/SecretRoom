@@ -54,7 +54,7 @@ private const val SEARCH_SCREEN_INDEX = -2
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DashboardTopBar(
-    views: List<ViewItem>,
+    dynamicPages: List<ViewItem>,
     modifier: Modifier = Modifier,
     selectedTabIndex: Int,
     screens: List<Screens> = TopBarTabs,
@@ -62,7 +62,7 @@ fun DashboardTopBar(
     onScreenSelection: (screen: Screens) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-    val dynamicPages = views.filter { it.name.lowercase() != "search" && it.name != "settings" }
+    
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -79,7 +79,6 @@ fun DashboardTopBar(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(dynamicPages.size.toString())
                 Spacer(modifier = Modifier.width(20.dp))
                 TabRow(
                     selectedTabIndex = if (selectedTabIndex >= 0 && selectedTabIndex < screens.size) selectedTabIndex else -1,
