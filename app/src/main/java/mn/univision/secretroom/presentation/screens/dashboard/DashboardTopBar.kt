@@ -62,7 +62,6 @@ fun DashboardTopBar(
     onScreenSelection: (screen: Screens) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
-
     Box(modifier = modifier) {
         Row(
             modifier = Modifier

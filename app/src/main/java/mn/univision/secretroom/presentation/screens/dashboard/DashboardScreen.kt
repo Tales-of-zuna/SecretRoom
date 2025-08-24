@@ -156,6 +156,7 @@ fun DashboardScreen(
         )
 
         DashboardTopBar(
+            viewsData = if (viewsState is NavigationViewModel.ViewsState.Success) (viewsState as NavigationViewModel.ViewsState.Success).views else emptyList(),
             modifier = Modifier
                 .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
                 .onSizeChanged { topBarHeightPx = it.height }
