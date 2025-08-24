@@ -37,6 +37,7 @@ import androidx.tv.material3.TabRow
 import androidx.tv.material3.Text
 import coil.compose.AsyncImage
 import mn.univision.secretroom.R
+import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.theme.IconSize
@@ -53,6 +54,7 @@ private const val SEARCH_SCREEN_INDEX = -2
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DashboardTopBar(
+    viewsData: List<ViewItem>,
     modifier: Modifier = Modifier,
     selectedTabIndex: Int,
     screens: List<Screens> = TopBarTabs,
@@ -61,13 +63,10 @@ fun DashboardTopBar(
 ) {
     val focusManager = LocalFocusManager.current
 
-
-
     Box(modifier = modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-
                 .focusRestorer(),
             verticalAlignment = Alignment.CenterVertically
         ) {

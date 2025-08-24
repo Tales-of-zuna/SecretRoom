@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class ViewsRepository @Inject constructor(
     private val api: AuthApiService,
     private val dataStore: DataStoreManager,
-    private val viewsDataManager: ViewsDataManager // Add this
+    private val viewsDataManager: ViewsDataManager
 ) {
     companion object {
         private const val TAG = "ViewsRepository"
@@ -30,7 +30,6 @@ class ViewsRepository @Inject constructor(
 
     suspend fun fetchViews(): ViewsResult {
         return try {
-            // Try to load from cache first
             val cachedViews = viewsDataManager.loadCachedViews()
             if (cachedViews != null && cachedViews.isNotEmpty()) {
                 Log.d(TAG, "Loaded views from cache: ${cachedViews.size} items")
@@ -54,7 +53,6 @@ class ViewsRepository @Inject constructor(
                 if (viewsData != null) {
                     Log.d(TAG, "Successfully fetched views: ${viewsData.size} items")
 
-                    // Save to cache
                     viewsDataManager.saveViews(viewsData)
 
                     ViewsResult.Success(viewsData)

@@ -5,6 +5,7 @@ import mn.univision.secretroom.presentation.screens.categories.CategoryMovieList
 import mn.univision.secretroom.presentation.screens.movies.MovieDetailsScreen
 import mn.univision.secretroom.presentation.screens.videoPlayer.VideoPlayerScreen
 
+
 enum class Screens(
     private val args: List<String>? = null,
     val isTabItem: Boolean = false,

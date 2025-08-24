@@ -1,5 +1,6 @@
 package mn.univision.secretroom.presentation.screens.dashboard
 
+import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -38,12 +39,15 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.presentation.NavigationViewModel
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.screens.categories.CategoriesScreen
 import mn.univision.secretroom.presentation.screens.home.HomeScreen
@@ -75,12 +79,14 @@ fun DashboardScreen(
     openVideoPlayer: (Movie) -> Unit,
     isComingBackFromDifferentScreen: Boolean,
     resetIsComingBackFromDifferentScreen: () -> Unit,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
 ) {
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
+    val viewsState by navigationViewModel.viewsState.collectAsStateWithLifecycle()
     val navController = rememberNavController()
-
+    Log.d(viewsState.toString(), "DashboardScreen: ")
     var isTopBarVisible by remember { mutableStateOf(true) }
     var isTopBarFocused by remember { mutableStateOf(false) }
 
@@ -104,10 +110,6 @@ fun DashboardScreen(
     }
 
     BackPressHandledArea(
-        // 1. On user's first back press, bring focus to the current selected tab, if TopBar is not
-        //    visible, first make it visible, then focus the selected tab
-        // 2. On second back press, bring focus back to the first displayed tab
-        // 3. On third back press, exit the app
         onBackPressed = {
             if (!isTopBarVisible) {
                 isTopBarVisible = true
@@ -118,13 +120,8 @@ fun DashboardScreen(
             } else TopBarFocusRequesters[1].requestFocus()
         }
     ) {
-        // We do not want to focus the TopBar everytime we come back from another screen e.g.
-        // MovieDetails, CategoryMovieList or VideoPlayer screen
         var wasTopBarFocusRequestedBefore by rememberSaveable { mutableStateOf(false) }
-
         var topBarHeightPx: Int by rememberSaveable { mutableIntStateOf(0) }
-
-        // Used to show/hide DashboardTopBar
         val topBarYOffsetPx by animateIntAsState(
             targetValue = if (isTopBarVisible) 0 else -topBarHeightPx,
             animationSpec = tween(),
@@ -136,8 +133,6 @@ fun DashboardScreen(
                 }
             }
         )
-
-        // Used to push down/pull up NavHost when DashboardTopBar is shown/hidden
         val navHostTopPaddingDp by animateDpAsState(
             targetValue = if (isTopBarVisible) with(density) { topBarHeightPx.toDp() } else 0.dp,
             animationSpec = tween(),
@@ -150,7 +145,6 @@ fun DashboardScreen(
                 wasTopBarFocusRequestedBefore = true
             }
         }
-
 
         val gradientBrush = Brush.verticalGradient(
             colors = listOf(

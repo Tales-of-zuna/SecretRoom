@@ -53,7 +53,6 @@ class AuthViewModel @Inject constructor(
                 }
 
                 is AuthRepository.AuthResult.Loading -> {
-                    // Keep loading state
                 }
             }
         }
