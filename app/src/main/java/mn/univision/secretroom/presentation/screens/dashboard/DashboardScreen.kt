@@ -1,6 +1,5 @@
 package mn.univision.secretroom.presentation.screens.dashboard
 
-import android.util.Log
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -47,13 +46,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
-import mn.univision.secretroom.presentation.NavigationViewModel
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.screens.categories.CategoriesScreen
 import mn.univision.secretroom.presentation.screens.home.HomeScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
-import mn.univision.secretroom.presentation.screens.svod.SvodScreen
 import mn.univision.secretroom.presentation.screens.tv.TvScreen
 import mn.univision.secretroom.presentation.screens.tvod.TvodScreen
 import mn.univision.secretroom.presentation.utils.Padding
@@ -80,16 +77,14 @@ fun DashboardScreen(
     isComingBackFromDifferentScreen: Boolean,
     resetIsComingBackFromDifferentScreen: () -> Unit,
     onBackPressed: () -> Unit,
-    navigationViewModel: NavigationViewModel = hiltViewModel(),
+    viewModel: DashboardViewModel = hiltViewModel()
 ) {
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
-    val viewsState by navigationViewModel.viewsState.collectAsStateWithLifecycle()
     val navController = rememberNavController()
-    Log.d(viewsState.toString(), "DashboardScreen: ")
     var isTopBarVisible by remember { mutableStateOf(true) }
     var isTopBarFocused by remember { mutableStateOf(false) }
-
+    val viewsState by viewModel.viewsState.collectAsStateWithLifecycle()
     var currentDestination: String? by remember { mutableStateOf(null) }
     val currentTopBarSelectedTabIndex by remember(currentDestination) {
         derivedStateOf {
@@ -155,39 +150,53 @@ fun DashboardScreen(
             endY = Float.POSITIVE_INFINITY
         )
 
-        DashboardTopBar(
-            viewsData = if (viewsState is NavigationViewModel.ViewsState.Success) (viewsState as NavigationViewModel.ViewsState.Success).views else emptyList(),
-            modifier = Modifier
-                .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
-                .onSizeChanged { topBarHeightPx = it.height }
-                .onFocusChanged { isTopBarFocused = it.hasFocus }
-                .background(gradientBrush)
-                .padding(
-                    horizontal = ParentPadding.calculateStartPadding(
-                        LocalLayoutDirection.current
-                    ) + 8.dp
+        when (viewsState) {
+            is ViewsState.Loading -> {
+                // Show loading
+            }
+
+            is ViewsState.Success -> {
+                DashboardTopBar(
+                    views = (viewsState as ViewsState.Success).views,
+                    modifier = Modifier
+                        .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
+                        .onSizeChanged { topBarHeightPx = it.height }
+                        .onFocusChanged { isTopBarFocused = it.hasFocus }
+                        .background(gradientBrush)
+                        .padding(
+                            horizontal = ParentPadding.calculateStartPadding(
+                                LocalLayoutDirection.current
+                            ) + 8.dp
+                        )
+                        .padding(
+                            top = ParentPadding.calculateTopPadding(),
+                            bottom = ParentPadding.calculateBottomPadding()
+                        ),
+                    selectedTabIndex = currentTopBarSelectedTabIndex,
+                ) { screen ->
+                    navController.navigate(screen()) {
+                        if (screen == TopBarTabs[0]) popUpTo(TopBarTabs[0].invoke())
+                        launchSingleTop = true
+                    }
+                }
+
+                Body(
+                    openCategoryMovieList = openCategoryMovieList,
+                    openMovieDetailsScreen = openMovieDetailsScreen,
+                    openVideoPlayer = openVideoPlayer,
+                    updateTopBarVisibility = { isTopBarVisible = it },
+                    isTopBarVisible = isTopBarVisible,
+                    navController = navController,
+                    modifier = Modifier.offset(y = navHostTopPaddingDp),
                 )
-                .padding(
-                    top = ParentPadding.calculateTopPadding(),
-                    bottom = ParentPadding.calculateBottomPadding()
-                ),
-            selectedTabIndex = currentTopBarSelectedTabIndex,
-        ) { screen ->
-            navController.navigate(screen()) {
-                if (screen == TopBarTabs[0]) popUpTo(TopBarTabs[0].invoke())
-                launchSingleTop = true
+            }
+
+            is ViewsState.Error -> {
+                // Show error
             }
         }
 
-        Body(
-            openCategoryMovieList = openCategoryMovieList,
-            openMovieDetailsScreen = openMovieDetailsScreen,
-            openVideoPlayer = openVideoPlayer,
-            updateTopBarVisibility = { isTopBarVisible = it },
-            isTopBarVisible = isTopBarVisible,
-            navController = navController,
-            modifier = Modifier.offset(y = navHostTopPaddingDp),
-        )
+
     }
 }
 
@@ -252,13 +261,13 @@ private fun Body(
                 isTopBarVisible = isTopBarVisible
             )
         }
-        composable(Screens.Svod()) {
-            SvodScreen(
+//        composable(Screens.Svod()) {
+//            SvodScreen(
 //                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
 //                onScroll = updateTopBarVisibility,
 //                isTopBarVisible = isTopBarVisible
-            )
-        }
+//            )
+//        }
         composable(Screens.Tv()) {
             TvScreen(
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
