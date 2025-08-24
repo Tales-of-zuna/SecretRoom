@@ -1,6 +1,7 @@
 package mn.univision.secretroom.data.storage
 
 import android.content.Context
+import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +20,6 @@ class ViewsDataManager @Inject constructor(
     private val _viewsFlow = MutableStateFlow<List<ViewItem>?>(null)
     val viewsFlow = _viewsFlow.asStateFlow()
 
-    // In-memory cache
     private var cachedViews: List<ViewItem>? = null
 
     companion object {
@@ -27,30 +27,17 @@ class ViewsDataManager @Inject constructor(
         private const val VIEWS_PREFS_KEY = "cached_views_json"
     }
 
-    /**
-     * Save views to both memory and persistent storage
-     */
     suspend fun saveViews(views: List<ViewItem>) {
-        // Save to memory
         cachedViews = views
         _viewsFlow.value = views
-
-        // Save to SharedPreferences (for small data)
         val json = gson.toJson(views)
         saveToPreferences(json)
-
-        // Alternative: Save to internal storage (for larger data)
         saveToInternalStorage(json)
     }
 
-    /**
-     * Load views from cache (memory first, then disk)
-     */
     suspend fun loadCachedViews(): List<ViewItem>? {
-        // Check memory cache first
         cachedViews?.let { return it }
 
-        // Try loading from preferences
         val prefsViews = loadFromPreferences()
         if (prefsViews != null) {
             cachedViews = prefsViews
@@ -58,7 +45,6 @@ class ViewsDataManager @Inject constructor(
             return prefsViews
         }
 
-        // Try loading from internal storage
         val storageViews = loadFromInternalStorage()
         if (storageViews != null) {
             cachedViews = storageViews
@@ -69,32 +55,20 @@ class ViewsDataManager @Inject constructor(
         return null
     }
 
-    /**
-     * Get specific view by ID
-     */
     fun getViewById(viewId: String): ViewItem? {
         return cachedViews?.find { it._id == viewId }
     }
 
-    /**
-     * Get views filtered by type
-     */
     fun getViewsByType(type: String): List<ViewItem> {
         return cachedViews?.filter { view ->
             view.items?.any { it.type == type } == true
         } ?: emptyList()
     }
 
-    /**
-     * Get kids views
-     */
     fun getKidsViews(): List<ViewItem> {
         return cachedViews?.filter { it.kids == true } ?: emptyList()
     }
 
-    /**
-     * Clear all cached views
-     */
     suspend fun clearCache() {
         cachedViews = null
         _viewsFlow.value = null
@@ -102,13 +76,11 @@ class ViewsDataManager @Inject constructor(
         clearInternalStorage()
     }
 
-    // Private helper methods
-
     private fun saveToPreferences(json: String) {
         context.getSharedPreferences("views_cache", Context.MODE_PRIVATE)
-            .edit()
-            .putString(VIEWS_PREFS_KEY, json)
-            .apply()
+            .edit {
+                putString(VIEWS_PREFS_KEY, json)
+            }
     }
 
     private fun loadFromPreferences(): List<ViewItem>? {
@@ -129,7 +101,6 @@ class ViewsDataManager @Inject constructor(
                 it.write(json.toByteArray())
             }
         } catch (e: Exception) {
-            // Handle error
         }
     }
 
@@ -147,16 +118,15 @@ class ViewsDataManager @Inject constructor(
 
     private fun clearPreferences() {
         context.getSharedPreferences("views_cache", Context.MODE_PRIVATE)
-            .edit()
-            .remove(VIEWS_PREFS_KEY)
-            .apply()
+            .edit {
+                remove(VIEWS_PREFS_KEY)
+            }
     }
 
     private fun clearInternalStorage() {
         try {
             context.deleteFile(VIEWS_CACHE_FILE)
         } catch (e: Exception) {
-            // Handle error
         }
     }
 }

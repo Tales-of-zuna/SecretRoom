@@ -45,6 +45,9 @@ android {
             excludes += "/META-INF/gradle/incremental.annotation.processors"
         }
     }
+    kotlinOptions {
+        freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+    }
 
 }
 

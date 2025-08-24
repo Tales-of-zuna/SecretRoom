@@ -1,7 +1,6 @@
-
-
 package mn.univision.secretroom.presentation.screens.search
 
+import android.util.Log
 import android.view.KeyEvent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
@@ -21,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,12 +47,15 @@ import androidx.tv.material3.Text
 import mn.univision.secretroom.R
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.entities.MovieList
+import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.common.MoviesRow
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.screens.dynamic.DynamicSection
 import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 
 @Composable
 fun SearchScreen(
+    viewsItem: ViewItem?,
     onMovieClick: (movie: Movie) -> Unit,
     onScroll: (isTopBarVisible: Boolean) -> Unit,
     searchScreenViewModel: SearchScreenViewModel = hiltViewModel(),
@@ -61,16 +64,20 @@ fun SearchScreen(
     val shouldShowTopBar by remember {
         derivedStateOf {
             lazyColumnState.firstVisibleItemIndex == 0 &&
-                lazyColumnState.firstVisibleItemScrollOffset < 100
+                    lazyColumnState.firstVisibleItemScrollOffset < 100
         }
     }
 
     val searchState by searchScreenViewModel.searchState.collectAsStateWithLifecycle()
-
+    Log.d(viewsItem.toString(), "SearchScreen: ")
     LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
     }
-
+    viewsItem?.items?.forEach { viewSubItem ->
+        key(viewSubItem._id) {
+            DynamicSection(section = viewSubItem)
+        }
+    }
     when (val s = searchState) {
         is SearchState.Searching -> {
             Text(text = "Searching...")
@@ -85,6 +92,8 @@ fun SearchScreen(
             )
         }
     }
+
+
 }
 
 @OptIn(ExperimentalComposeUiApi::class)

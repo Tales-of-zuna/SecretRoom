@@ -14,10 +14,11 @@ enum class Screens(
 
     //   these are supposed to be dynamic pages
     Home(isTabItem = true, title = "Нүүр"),
-    Categories(isTabItem = true, title = "Ангилалууд"),
-    Tvod(isTabItem = true, title = "Кино сан"),
-    Svod(isTabItem = true, title = "Багц"),
-    Tv(isTabItem = true, title = "ТВ"),
+//    Categories(isTabItem = true, title = "Ангилалууд"),
+
+    //    Tvod(isTabItem = true, title = "Кино сан"),
+//    Svod(isTabItem = true, title = "Багц"),
+//    Tv(isTabItem = true, title = "ТВ"),
 
     //    static pages
     Profile,

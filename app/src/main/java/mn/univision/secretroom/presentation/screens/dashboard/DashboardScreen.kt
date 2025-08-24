@@ -48,11 +48,10 @@ import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.screens.Screens
-import mn.univision.secretroom.presentation.screens.categories.CategoriesScreen
+import mn.univision.secretroom.presentation.screens.dynamic.DynamicScreen
 import mn.univision.secretroom.presentation.screens.home.HomeScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
-import mn.univision.secretroom.presentation.screens.tvod.TvodScreen
 import mn.univision.secretroom.presentation.utils.Padding
 
 val ParentPadding = PaddingValues(vertical = 16.dp, horizontal = 58.dp)
@@ -191,6 +190,7 @@ fun DashboardScreen(
                     navController = navController,
                     dynamicPages = dynamicPages,
                     modifier = Modifier.offset(y = navHostTopPaddingDp),
+                    views = views
                 )
             }
 
@@ -232,7 +232,8 @@ private fun Body(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     isTopBarVisible: Boolean = true,
-    dynamicPages: List<ViewItem> = emptyList()
+    dynamicPages: List<ViewItem> = emptyList(),
+    views: List<ViewItem> = emptyList(),
 ) =
     NavHost(
         modifier = modifier,
@@ -252,36 +253,19 @@ private fun Body(
                 isTopBarVisible = isTopBarVisible
             )
         }
-        composable(Screens.Categories()) {
-            CategoriesScreen(
-                onCategoryClick = openCategoryMovieList,
+
+        composable(this is an dynamic route){
+            val route = it.arguments?.getString("route") ?: return@composable
+            val screen = dynamicPages.firstOrNull { page -> page.name == route }
+            DynamicScreen(
+                screen = screen,
                 onScroll = updateTopBarVisibility
             )
         }
-        composable(Screens.Tvod()) {
-            TvodScreen(
-                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
-                onScroll = updateTopBarVisibility,
-                isTopBarVisible = isTopBarVisible
-            )
-        }
-//        composable(Screens.Svod()) {
-//            SvodScreen(
-//                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
-//                onScroll = updateTopBarVisibility,
-//                isTopBarVisible = isTopBarVisible
-//            )
-//        }
-//        composable(Screens.Tv()) {
-//            TvScreen(
-//                onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
-//                onScroll = updateTopBarVisibility,
-//                isTopBarVisible = isTopBarVisible
-//            )
-//        }
 
         composable(Screens.Search()) {
             SearchScreen(
+                viewsItem = views.firstOrNull { it.name.lowercase() == "search" },
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                 onScroll = updateTopBarVisibility
             )
