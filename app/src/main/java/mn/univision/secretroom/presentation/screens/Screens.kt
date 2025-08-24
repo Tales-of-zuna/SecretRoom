@@ -11,15 +11,16 @@ enum class Screens(
     val tabIcon: ImageVector? = null,
     val title: String? = null
 ) {
-    Profile,
+
+    //   these are supposed to be dynamic pages
     Home(isTabItem = true, title = "Нүүр"),
     Categories(isTabItem = true, title = "Ангилалууд"),
     Tvod(isTabItem = true, title = "Кино сан"),
     Svod(isTabItem = true, title = "Багц"),
     Tv(isTabItem = true, title = "ТВ"),
 
-    //    Actors(isTabItem = true, title = "Жүжигчид"),
-//    Shop(isTabItem = true, title = "Дэлгүүр"),
+    //    static pages
+    Profile,
     Search,
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
