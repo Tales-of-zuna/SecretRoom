@@ -123,7 +123,7 @@ fun DashboardTopBar(
                 Spacer(modifier = Modifier.weight(1f))
                 SearchIcon(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(20.dp)
                         .semantics {
                             contentDescription = StringConstants.Composable
                                 .ContentDescription.DashboardSearchButton
@@ -134,11 +134,11 @@ fun DashboardTopBar(
                     }
                 )
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
-                UserAvatar(
+                SettingsIcon(
                     modifier = Modifier
-                        .size(16.dp)
+                        .size(20.dp)
                         .semantics {
                             contentDescription =
                                 StringConstants.Composable.ContentDescription.UserAvatar

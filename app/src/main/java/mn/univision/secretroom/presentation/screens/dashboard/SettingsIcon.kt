@@ -21,7 +21,7 @@ import androidx.tv.material3.Surface
 import mn.univision.secretroom.presentation.theme.SecretRoomBorderWidth
 
 @Composable
-fun UserAvatar(
+fun SettingsIcon(
     selected: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
@@ -48,7 +48,7 @@ fun UserAvatar(
                 shape = CircleShape
             ),
         ),
-        scale = SelectableSurfaceDefaults.scale(focusedScale = 1f),
+        scale = SelectableSurfaceDefaults.scale(focusedScale = 1.1f),
         modifier = modifier
             .alpha(if (selected || isFocused) 1f else 0.6f)
             .onFocusChanged {

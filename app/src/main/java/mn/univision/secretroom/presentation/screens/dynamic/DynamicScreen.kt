@@ -22,7 +22,6 @@ fun DynamicScreen(
     isTopBarVisible: Boolean,
     onMovieClick: (Movie) -> Unit,
     openCategoryMovieList: (categoryId: String) -> Unit,
-//    viewModel: DynamicScreenViewModel = hiltViewModel()
 ) {
     val lazyListState = rememberLazyListState()
     val shouldShowTopBar by remember {
@@ -31,11 +30,7 @@ fun DynamicScreen(
                     lazyListState.firstVisibleItemScrollOffset < 100
         }
     }
-//
-//    LaunchedEffect(screen?._id) {
-//        viewModel.loadContentForScreen(screen)
-//    }
-
+    
     LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
     }
