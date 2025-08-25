@@ -73,11 +73,7 @@ fun SearchScreen(
     LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
     }
-    viewsItem?.items?.forEach { viewSubItem ->
-        key(viewSubItem._id) {
-            DynamicSection(section = viewSubItem)
-        }
-    }
+
     when (val s = searchState) {
         is SearchState.Searching -> {
             Text(text = "Searching...")
@@ -88,12 +84,12 @@ fun SearchScreen(
             SearchResult(
                 movieList = movieList,
                 searchMovies = searchScreenViewModel::query,
+                viewsItem = viewsItem,
                 onMovieClick = onMovieClick
             )
+
         }
     }
-
-
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -103,6 +99,7 @@ fun SearchResult(
     searchMovies: (queryString: String) -> Unit,
     onMovieClick: (movie: Movie) -> Unit,
     modifier: Modifier = Modifier,
+    viewsItem: ViewItem?,
     lazyColumnState: LazyListState = rememberLazyListState(),
 ) {
     val childPadding = rememberChildPadding()
@@ -221,6 +218,14 @@ fun SearchResult(
                     .padding(top = childPadding.top * 2),
                 movieList = movieList
             ) { selectedMovie -> onMovieClick(selectedMovie) }
+        }
+
+        item {
+            viewsItem?.items?.forEach { viewSubItem ->
+                key(viewSubItem._id) {
+                    DynamicSection(section = viewSubItem)
+                }
+            }
         }
     }
 }

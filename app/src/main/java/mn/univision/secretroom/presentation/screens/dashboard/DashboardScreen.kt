@@ -48,7 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.screens.Screens
-import mn.univision.secretroom.presentation.screens.dynamic.DynamicScreen
+import mn.univision.secretroom.presentation.screens.home.HomeScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
 import mn.univision.secretroom.presentation.utils.Padding
@@ -232,32 +232,26 @@ private fun Body(
     navController: NavHostController = rememberNavController(),
     isTopBarVisible: Boolean = true,
     dynamicPages: List<ViewItem> = emptyList(),
-    views: List<ViewItem> = emptyList(),
+    views: List<ViewItem>
 ) =
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = dynamicPages.[0].let { Screens.DynamicRoute(it.name) },
+        startDestination = Screens.Home(),
     ) {
         composable(Screens.Profile()) {
             ProfileScreen()
         }
-
-        dynamicPages.forEach { page ->
-            composable(Screens.DynamicRoute(page.name)) {
-                DynamicScreen(
-                    openCategoryMovieList = openCategoryMovieList,
-                    onMovieClick = { selectedMovie ->
-                        openMovieDetailsScreen(selectedMovie.id)
-                    },
-                    goToVideoPlayer = openVideoPlayer,
-                    onScroll = updateTopBarVisibility,
-                    isTopBarVisible = isTopBarVisible,
-                    screen = page
-                )
-            }
+        composable(Screens.Home()) {
+            HomeScreen(
+                onMovieClick = { selectedMovie ->
+                    openMovieDetailsScreen(selectedMovie.id)
+                },
+                goToVideoPlayer = openVideoPlayer,
+                onScroll = updateTopBarVisibility,
+                isTopBarVisible = isTopBarVisible
+            )
         }
-
 
         composable(Screens.Search()) {
             SearchScreen(
