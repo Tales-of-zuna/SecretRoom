@@ -12,20 +12,12 @@ enum class Screens(
     val title: String? = null
 ) {
 
-    //   these are supposed to be dynamic pages
-    Home(isTabItem = true, title = "Нүүр"),
-//    Categories(isTabItem = true, title = "Ангилалууд"),
-
-    //    Tvod(isTabItem = true, title = "Кино сан"),
-//    Svod(isTabItem = true, title = "Багц"),
-//    Tv(isTabItem = true, title = "ТВ"),
-
-    //    static pages
+    DynamicScreen(listOf("screenId"), isTabItem = true),
     Profile,
     Search,
+    Dashboard,
     CategoryMovieList(listOf(CategoryMovieListScreen.CategoryIdBundleKey)),
     MovieDetails(listOf(MovieDetailsScreen.MovieIdBundleKey)),
-    Dashboard,
     VideoPlayer(listOf(VideoPlayerScreen.MovieIdBundleKey));
 
     operator fun invoke(): String {

@@ -223,7 +223,10 @@ fun SearchResult(
         item {
             viewsItem?.items?.forEach { viewSubItem ->
                 key(viewSubItem._id) {
-                    DynamicSection(section = viewSubItem)
+                    DynamicSection(
+                        section = viewSubItem, onMovieClick = onMovieClick,
+                        goToVideoPlayer = {},
+                    )
                 }
             }
         }

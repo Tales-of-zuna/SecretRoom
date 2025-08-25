@@ -29,7 +29,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Icon
 import androidx.tv.material3.LocalContentColor
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Tab
@@ -44,9 +43,7 @@ import mn.univision.secretroom.presentation.theme.IconSize
 import mn.univision.secretroom.presentation.theme.LexendExa
 import mn.univision.secretroom.presentation.utils.occupyScreenSize
 
-val TopBarTabs = Screens.entries.toList().filter { it.isTabItem && it != Screens.Search }
-
-val TopBarFocusRequesters = List(size = TopBarTabs.size + 2) { FocusRequester() }
+val TopBarFocusRequesters = List(size = 10) { FocusRequester() }
 
 private const val PROFILE_SCREEN_INDEX = -1
 private const val SEARCH_SCREEN_INDEX = -2
@@ -54,12 +51,11 @@ private const val SEARCH_SCREEN_INDEX = -2
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DashboardTopBar(
-    dynamicPages: List<ViewItem>,
+    dynamicScreens: List<ViewItem>,
     modifier: Modifier = Modifier,
     selectedTabIndex: Int,
-    screens: List<Screens> = TopBarTabs,
     focusRequesters: List<FocusRequester> = remember { TopBarFocusRequesters },
-    onScreenSelection: (screen: Screens) -> Unit
+    onScreenSelection: (screenId: String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -75,16 +71,16 @@ fun DashboardTopBar(
                     .alpha(0.75f)
                     .padding(end = 8.dp),
             )
-            Spacer(modifier = Modifier.weight(1f))
+   
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.width(20.dp))
+                Spacer(modifier = Modifier.weight(1f))
                 TabRow(
-                    selectedTabIndex = if (selectedTabIndex >= 0 && selectedTabIndex < screens.size) selectedTabIndex else -1,
+                    selectedTabIndex = if (selectedTabIndex >= 0 && selectedTabIndex < dynamicScreens.size) selectedTabIndex else -1,
                     separator = { Spacer(modifier = Modifier) }
                 ) {
-                    screens.forEachIndexed { index, screen ->
+                    dynamicScreens.forEachIndexed { index, screen ->
                         key(index) {
                             val isSelected = index == selectedTabIndex
                             var isFocused by remember { mutableStateOf(false) }
@@ -106,65 +102,56 @@ fun DashboardTopBar(
                                 selected = isSelected,
                                 onFocus = {
                                     if (!isSelected) {
-                                        onScreenSelection(screen)
+                                        onScreenSelection(screen._id)
                                     }
                                 },
                                 onClick = { focusManager.moveFocus(FocusDirection.Down) },
                             ) {
-                                if (screen.tabIcon != null) {
-                                    Icon(
-                                        screen.tabIcon,
-                                        modifier = Modifier.padding(4.dp),
-                                        contentDescription = StringConstants.Composable
-                                            .ContentDescription.DashboardSearchButton,
-                                        tint = LocalContentColor.current
+                                Text(
+                                    modifier = Modifier
+                                        .occupyScreenSize()
+                                        .padding(horizontal = 16.dp),
+                                    text = screen.title?.mn ?: "",
+                                    style = MaterialTheme.typography.titleSmall.copy(
+                                        color = LocalContentColor.current
                                     )
-                                } else {
-                                    Text(
-                                        modifier = Modifier
-                                            .occupyScreenSize()
-                                            .padding(horizontal = 16.dp),
-                                        text = screen.title ?: stringResource(R.string.app_name),
-                                        style = MaterialTheme.typography.titleSmall.copy(
-                                            color = LocalContentColor.current
-                                        )
-                                    )
-                                }
+                                )
                             }
                         }
                     }
                 }
+                Spacer(modifier = Modifier.weight(1f))
+                SearchIcon(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .semantics {
+                            contentDescription = StringConstants.Composable
+                                .ContentDescription.DashboardSearchButton
+                        },
+                    selected = selectedTabIndex == SEARCH_SCREEN_INDEX,
+                    onClick = {
+                        onScreenSelection(Screens.Search())
+                    }
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                UserAvatar(
+                    modifier = Modifier
+                        .size(16.dp)
+                        .semantics {
+                            contentDescription =
+                                StringConstants.Composable.ContentDescription.UserAvatar
+                        },
+                    selected = selectedTabIndex == PROFILE_SCREEN_INDEX,
+                    onClick = {
+                        onScreenSelection(Screens.Profile())
+                    }
+                )
             }
-            Spacer(modifier = Modifier.weight(1f))
-
-            SearchIcon(
-                modifier = Modifier
-                    .size(16.dp)
-                    .semantics {
-                        contentDescription = StringConstants.Composable
-                            .ContentDescription.DashboardSearchButton
-                    },
-                selected = selectedTabIndex == SEARCH_SCREEN_INDEX,
-                onClick = {
-                    onScreenSelection(Screens.Search)
-                }
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            UserAvatar(
-                modifier = Modifier
-                    .size(16.dp)
-                    .semantics {
-                        contentDescription =
-                            StringConstants.Composable.ContentDescription.UserAvatar
-                    },
-                selected = selectedTabIndex == PROFILE_SCREEN_INDEX,
-                onClick = {
-                    onScreenSelection(Screens.Profile)
-                }
-            )
         }
+
+
     }
 }
 

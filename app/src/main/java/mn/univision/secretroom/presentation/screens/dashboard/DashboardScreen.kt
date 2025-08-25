@@ -48,7 +48,7 @@ import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.screens.Screens
-import mn.univision.secretroom.presentation.screens.home.HomeScreen
+import mn.univision.secretroom.presentation.screens.dynamic.DynamicScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
 import mn.univision.secretroom.presentation.utils.Padding
@@ -84,11 +84,23 @@ fun DashboardScreen(
     var isTopBarFocused by remember { mutableStateOf(false) }
     val viewsState by viewModel.viewsState.collectAsStateWithLifecycle()
     val views = (viewsState as? ViewsState.Success)?.views ?: emptyList()
-    val dynamicPages = views.filter { it.name.lowercase() != "search" && it.name != "settings" }
+    val dynamicScreens = views.filter { it.name.lowercase() != "search" && it.name != "settings" }
     var currentDestination: String? by remember { mutableStateOf(null) }
-    val currentTopBarSelectedTabIndex by remember(currentDestination) {
+//    val currentTopBarSelectedTabIndex by remember(currentDestination) {
+//        derivedStateOf {
+//            currentDestination?.let { TopBarTabs.indexOf(Screens.valueOf(it)) } ?: 0
+//        }
+//    }
+
+    remember(dynamicScreens.size) {
+        List(size = dynamicScreens.size + 2) { androidx.compose.ui.focus.FocusRequester() }
+    }
+    val currentTopBarSelectedTabIndex by remember(currentDestination, dynamicScreens) {
         derivedStateOf {
-            currentDestination?.let { TopBarTabs.indexOf(Screens.valueOf(it)) } ?: 0
+            currentDestination?.let { destination ->
+                val screenIdFromRoute = destination.substringAfter("DynamicScreen/")
+                dynamicScreens.indexOfFirst { it._id == screenIdFromRoute }.takeIf { it != -1 } ?: 0
+            } ?: 0
         }
     }
 
@@ -152,12 +164,11 @@ fun DashboardScreen(
 
         when (viewsState) {
             is ViewsState.Loading -> {
-                // Show loading
             }
 
             is ViewsState.Success -> {
                 DashboardTopBar(
-                    dynamicPages = dynamicPages,
+                    dynamicScreens = dynamicScreens,
                     modifier = Modifier
                         .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
                         .onSizeChanged { topBarHeightPx = it.height }
@@ -173,12 +184,15 @@ fun DashboardScreen(
                             bottom = ParentPadding.calculateBottomPadding()
                         ),
                     selectedTabIndex = currentTopBarSelectedTabIndex,
-                ) { screen ->
-                    navController.navigate(screen()) {
-                        if (screen == TopBarTabs[0]) popUpTo(TopBarTabs[0].invoke())
+                ) { screenId ->
+                    navController.navigate(Screens.DynamicScreen.withArgs(screenId)) {
+                        if (screenId == dynamicScreens.firstOrNull()?._id) {
+                            popUpTo(Screens.DynamicScreen.withArgs(screenId))
+                        }
                         launchSingleTop = true
                     }
                 }
+
 
                 Body(
                     openCategoryMovieList = openCategoryMovieList,
@@ -187,7 +201,7 @@ fun DashboardScreen(
                     updateTopBarVisibility = { isTopBarVisible = it },
                     isTopBarVisible = isTopBarVisible,
                     navController = navController,
-                    dynamicPages = dynamicPages,
+                    dynamicScreens = dynamicScreens,
                     modifier = Modifier.offset(y = navHostTopPaddingDp),
                     views = views
                 )
@@ -197,7 +211,6 @@ fun DashboardScreen(
                 // Show error
             }
         }
-
 
     }
 }
@@ -231,29 +244,33 @@ private fun Body(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     isTopBarVisible: Boolean = true,
-    dynamicPages: List<ViewItem> = emptyList(),
+    dynamicScreens: List<ViewItem> = emptyList(),
     views: List<ViewItem>
 ) =
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = Screens.Home(),
+        startDestination = Screens.DynamicScreen.withArgs(dynamicScreens[0]._id),
     ) {
-        composable(Screens.Profile()) {
-            ProfileScreen()
+        dynamicScreens.forEach { screen ->
+            composable(Screens.DynamicScreen.withArgs(screen._id)) {
+                DynamicScreen(
+                    screen = screen,
+                    onScroll = updateTopBarVisibility,
+                    isTopBarVisible = isTopBarVisible,
+                    onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
+                    openCategoryMovieList = openCategoryMovieList,
+                    goToVideoPlayer = openVideoPlayer,
+
+                    )
+            }
         }
-        composable(Screens.Home()) {
-            HomeScreen(
-                onMovieClick = { selectedMovie ->
-                    openMovieDetailsScreen(selectedMovie.id)
-                },
-                goToVideoPlayer = openVideoPlayer,
-                onScroll = updateTopBarVisibility,
-                isTopBarVisible = isTopBarVisible
+        composable(Screens.DynamicScreen.withArgs("Profile")) {
+            ProfileScreen(
+                viewItem = views.firstOrNull { it.name.lowercase() == "settings" },
             )
         }
-
-        composable(Screens.Search()) {
+        composable(Screens.DynamicScreen.withArgs("Search")) {
             SearchScreen(
                 viewsItem = views.firstOrNull { it.name.lowercase() == "search" },
                 onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },

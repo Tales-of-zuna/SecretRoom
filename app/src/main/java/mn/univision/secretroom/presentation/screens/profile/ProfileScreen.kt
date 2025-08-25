@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.presentation.screens.profile
 
 import androidx.annotation.FloatRange
@@ -53,12 +51,14 @@ import androidx.tv.material3.ListItemDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import mn.univision.secretroom.R
+import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
 import mn.univision.secretroom.presentation.theme.SecretRoomTheme
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileScreen(
+    viewItem: ViewItem?,
     @FloatRange(from = 0.0, to = 1.0)
     sidebarWidthFraction: Float = 0.32f
 ) {
@@ -91,8 +91,8 @@ fun ProfileScreen(
                 .focusGroup(),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            viewItem?._id?.let { Text(it) }
             ProfileScreens.entries.forEachIndexed { index, profileScreen ->
-                // TODO: make this dense list item
                 key(index) {
                     ListItem(
                         trailingContent = {
@@ -155,8 +155,6 @@ fun ProfileScreen(
                 .fillMaxSize()
                 .onPreviewKeyEvent {
                     if (it.key == Key.Back && it.type == KeyEventType.KeyUp) {
-                        // Using 'while' because AccountsScreen has a grid that has multiple items
-                        // in a row for which we would need to press D-Pad Left multiple times
                         while (!isLeftColumnFocused) {
                             focusManager.moveFocus(FocusDirection.Left)
                         }
@@ -201,7 +199,16 @@ fun ProfileScreen(
 fun ProfileScreenPreview() {
     SecretRoomTheme {
         Box(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
-            ProfileScreen()
+            ProfileScreen(
+                viewItem = ViewItem(
+                    _id = "123",
+                    name = "123",
+                    kids = false,
+                    __v = 1,
+                    title = null,
+                    items = null
+                )
+            )
         }
     }
 }
