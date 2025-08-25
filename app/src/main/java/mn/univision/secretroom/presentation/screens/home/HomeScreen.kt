@@ -73,7 +73,7 @@ private fun Content(
 ) {
 
     val lazyListState = rememberLazyListState()
-    val childPadding = rememberChildPadding()
+    rememberChildPadding()
     var immersiveListHasFocus by remember { mutableStateOf(false) }
 
     val shouldShowTopBar by remember {
@@ -100,11 +100,10 @@ private fun Content(
         item(contentType = "FeaturedMoviesCarousel") {
             FeaturedMoviesCarousel(
                 movies = featuredMovies,
-                padding = childPadding,
                 goToVideoPlayer = goToVideoPlayer,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(324.dp)
+                    .height(400.dp)
 
             )
         }

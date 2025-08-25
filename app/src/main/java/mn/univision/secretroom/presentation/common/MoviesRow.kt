@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import mn.univision.secretroom.data.entities.Movie
@@ -134,9 +133,8 @@ fun ImmersiveListMoviesRow(
     startPadding: Dp = rememberChildPadding().start,
     endPadding: Dp = rememberChildPadding().end,
     title: String? = null,
-    titleStyle: TextStyle = MaterialTheme.typography.headlineLarge.copy(
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium.copy(
         fontWeight = FontWeight.Medium,
-        fontSize = 30.sp
     ),
     showItemTitle: Boolean = true,
     showIndexOverImage: Boolean = false,

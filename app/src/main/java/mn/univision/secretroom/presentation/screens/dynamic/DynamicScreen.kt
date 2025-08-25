@@ -21,6 +21,7 @@ fun DynamicScreen(
     goToVideoPlayer: (Movie) -> Unit,
     isTopBarVisible: Boolean,
     onMovieClick: (Movie) -> Unit,
+
     openCategoryMovieList: (categoryId: String) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
@@ -43,7 +44,11 @@ fun DynamicScreen(
 
     Text(screen?._id ?: "No id")
 
-    LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
+    LazyColumn(
+        state = lazyListState, modifier = Modifier
+            .fillMaxSize()
+
+    ) {
         screen?.items?.forEach { section ->
             item {
                 key(section._id) {

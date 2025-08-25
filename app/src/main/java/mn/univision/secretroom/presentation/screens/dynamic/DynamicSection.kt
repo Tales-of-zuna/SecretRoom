@@ -71,7 +71,7 @@ fun Content(
     modifier: Modifier = Modifier,
     isTopBarVisible: Boolean = true,
 ) {
-    val childPadding = rememberChildPadding()
+    rememberChildPadding()
     var immersiveListHasFocus by remember { mutableStateOf(false) }
 
     when (section.type?.lowercase()) {
@@ -88,11 +88,10 @@ fun Content(
         "carousel" -> {
             FeaturedMoviesCarousel(
                 movies = featuredMovies,
-                padding = childPadding,
                 goToVideoPlayer = goToVideoPlayer,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(324.dp)
+                    .height(400.dp)
             )
         }
 
@@ -107,6 +106,8 @@ fun Content(
                 showIndexOverImage = true,
             )
         }
+
+        
 // ene 2 iig veiws json deer nemne
         "banner" -> {
             Text(text = "Banner section")
@@ -123,7 +124,7 @@ fun Content(
         }
 
         else -> {
-            Text(text = "Views json deer nemeh")
+            Text(text = "")
         }
 
 

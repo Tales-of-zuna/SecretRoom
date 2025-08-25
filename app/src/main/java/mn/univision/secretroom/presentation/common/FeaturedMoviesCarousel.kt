@@ -51,7 +51,6 @@ import mn.univision.secretroom.R
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.theme.SecretRoomButtonShape
-import mn.univision.secretroom.presentation.utils.Padding
 import mn.univision.secretroom.presentation.utils.handleDPadKeyEvents
 
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -64,29 +63,15 @@ val CarouselSaver = Saver<CarouselState, Int>(
 @Composable
 fun FeaturedMoviesCarousel(
     movies: List<Movie>,
-    padding: Padding,
     goToVideoPlayer: (movie: Movie) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val carouselState = rememberSaveable(saver = CarouselSaver) { CarouselState(0) }
     var isCarouselFocused by remember { mutableStateOf(false) }
-    if (isCarouselFocused) {
-        1f
-    } else {
-        0f
-    }
 
     Carousel(
         modifier = modifier
-//            .padding(start = padding.start, end = padding.start, top = padding.top)
-//            .border(
-//                width = SecretRoomBorderWidth,
-//                color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha),
-//                shape = ShapeDefaults.Medium,
-//            )
-//            .clip(ShapeDefaults.Medium)
             .onFocusChanged {
-                // Because the carousel itself never gets the focus
                 isCarouselFocused = it.hasFocus
             }
             .semantics {
@@ -110,9 +95,7 @@ fun FeaturedMoviesCarousel(
             .togetherWith(fadeOut(tween(durationMillis = 1000))),
         content = { index ->
             val movie = movies[index]
-            // background
             CarouselItemBackground(movie = movie, modifier = Modifier.fillMaxSize())
-            // foreground
             CarouselItemForeground(
                 movie = movie,
                 isCarouselFocused = isCarouselFocused,

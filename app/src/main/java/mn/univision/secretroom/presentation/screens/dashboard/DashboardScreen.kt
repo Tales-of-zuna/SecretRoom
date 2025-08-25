@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -47,6 +48,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.models.ViewItem
+import mn.univision.secretroom.presentation.common.Error
+import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.screens.Screens
 import mn.univision.secretroom.presentation.screens.dynamic.DynamicScreen
 import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
@@ -86,11 +89,7 @@ fun DashboardScreen(
     val views = (viewsState as? ViewsState.Success)?.views ?: emptyList()
     val dynamicScreens = views.filter { it.name.lowercase() != "search" && it.name != "settings" }
     var currentDestination: String? by remember { mutableStateOf(null) }
-//    val currentTopBarSelectedTabIndex by remember(currentDestination) {
-//        derivedStateOf {
-//            currentDestination?.let { TopBarTabs.indexOf(Screens.valueOf(it)) } ?: 0
-//        }
-//    }
+
 
     remember(dynamicScreens.size) {
         List(size = dynamicScreens.size + 2) { androidx.compose.ui.focus.FocusRequester() }
@@ -146,6 +145,14 @@ fun DashboardScreen(
             label = "",
         )
 
+        val isDynamicScreen by remember(currentDestination) {
+            derivedStateOf {
+                currentDestination?.startsWith("DynamicScreen/") == true &&
+                        !currentDestination!!.contains("Profile") &&
+                        !currentDestination!!.contains("Search")
+            }
+        }
+
         LaunchedEffect(Unit) {
             if (!wasTopBarFocusRequestedBefore) {
                 TopBarFocusRequesters[currentTopBarSelectedTabIndex + 1].requestFocus()
@@ -156,6 +163,7 @@ fun DashboardScreen(
         val gradientBrush = Brush.verticalGradient(
             colors = listOf(
                 Color.Black,
+                Color.Black,
                 Color.Transparent
             ),
             startY = 0f,
@@ -164,51 +172,57 @@ fun DashboardScreen(
 
         when (viewsState) {
             is ViewsState.Loading -> {
+                Loading(modifier = Modifier.fillMaxSize())
             }
 
             is ViewsState.Success -> {
-                DashboardTopBar(
-                    dynamicScreens = dynamicScreens,
-                    modifier = Modifier
-                        .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
-                        .onSizeChanged { topBarHeightPx = it.height }
-                        .onFocusChanged { isTopBarFocused = it.hasFocus }
-                        .background(gradientBrush)
-                        .padding(
-                            horizontal = ParentPadding.calculateStartPadding(
-                                LocalLayoutDirection.current
-                            ) + 8.dp
-                        )
-                        .padding(
-                            top = ParentPadding.calculateTopPadding(),
-                            bottom = ParentPadding.calculateBottomPadding()
-                        ),
-                    selectedTabIndex = currentTopBarSelectedTabIndex,
-                ) { screenId ->
-                    navController.navigate(Screens.DynamicScreen.withArgs(screenId)) {
-                        if (screenId == dynamicScreens.firstOrNull()?._id) {
-                            popUpTo(Screens.DynamicScreen.withArgs(screenId))
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Body(
+                        openCategoryMovieList = openCategoryMovieList,
+                        openMovieDetailsScreen = openMovieDetailsScreen,
+                        openVideoPlayer = openVideoPlayer,
+                        updateTopBarVisibility = { isTopBarVisible = it },
+                        isTopBarVisible = isTopBarVisible,
+                        navController = navController,
+                        dynamicScreens = dynamicScreens,
+                        modifier = if (isDynamicScreen) {
+                            Modifier
+                                .offset(y = navHostTopPaddingDp - 45.dp)
+                        } else {
+                            Modifier.offset(y = navHostTopPaddingDp)
+                        },
+                        views = views
+                    )
+                    DashboardTopBar(
+                        dynamicScreens = dynamicScreens,
+                        modifier = Modifier
+                            .offset { IntOffset(x = 0, y = topBarYOffsetPx) }
+                            .onSizeChanged { topBarHeightPx = it.height }
+                            .onFocusChanged { isTopBarFocused = it.hasFocus }
+                            .background(gradientBrush)
+                            .padding(
+                                horizontal = ParentPadding.calculateStartPadding(
+                                    LocalLayoutDirection.current
+                                ) + 8.dp
+                            )
+                            .padding(
+                                top = ParentPadding.calculateTopPadding(),
+                                bottom = ParentPadding.calculateBottomPadding()
+                            ),
+                        selectedTabIndex = currentTopBarSelectedTabIndex,
+                    ) { screenId ->
+                        navController.navigate(Screens.DynamicScreen.withArgs(screenId)) {
+                            if (screenId == dynamicScreens.firstOrNull()?._id) {
+                                popUpTo(Screens.DynamicScreen.withArgs(screenId))
+                            }
+                            launchSingleTop = true
                         }
-                        launchSingleTop = true
                     }
                 }
-
-
-                Body(
-                    openCategoryMovieList = openCategoryMovieList,
-                    openMovieDetailsScreen = openMovieDetailsScreen,
-                    openVideoPlayer = openVideoPlayer,
-                    updateTopBarVisibility = { isTopBarVisible = it },
-                    isTopBarVisible = isTopBarVisible,
-                    navController = navController,
-                    dynamicScreens = dynamicScreens,
-                    modifier = Modifier.offset(y = navHostTopPaddingDp),
-                    views = views
-                )
             }
 
             is ViewsState.Error -> {
-                // Show error
+                Error(modifier = Modifier.fillMaxSize())
             }
         }
 
