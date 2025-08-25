@@ -30,7 +30,7 @@ fun DynamicScreen(
                     lazyListState.firstVisibleItemScrollOffset < 100
         }
     }
-    
+
     LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
     }
@@ -44,8 +44,8 @@ fun DynamicScreen(
     Text(screen?._id ?: "No id")
 
     LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
-        item {
-            screen?.items?.forEach { section ->
+        screen?.items?.forEach { section ->
+            item {
                 key(section._id) {
                     DynamicSection(
                         section = section,
