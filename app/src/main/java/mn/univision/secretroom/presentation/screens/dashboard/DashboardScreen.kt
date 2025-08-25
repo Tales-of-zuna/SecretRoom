@@ -56,7 +56,7 @@ import mn.univision.secretroom.presentation.screens.profile.ProfileScreen
 import mn.univision.secretroom.presentation.screens.search.SearchScreen
 import mn.univision.secretroom.presentation.utils.Padding
 
-val ParentPadding = PaddingValues(vertical = 16.dp, horizontal = 58.dp)
+val ParentPadding = PaddingValues(vertical = 16.dp, horizontal = 16.dp)
 
 @Composable
 fun rememberChildPadding(direction: LayoutDirection = LocalLayoutDirection.current): Padding {

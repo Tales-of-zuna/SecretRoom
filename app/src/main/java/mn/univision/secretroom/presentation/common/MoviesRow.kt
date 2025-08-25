@@ -93,7 +93,7 @@ fun MoviesRow(
                     start = startPadding,
                     end = endPadding,
                 ),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
                     .focusRequester(lazyRow)
                     .focusRestorer {
@@ -165,7 +165,7 @@ fun ImmersiveListMoviesRow(
         ) { movieState ->
             LazyRow(
                 contentPadding = PaddingValues(start = startPadding, end = endPadding),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
                     .focusRequester(lazyRow)
                     .focusRestorer {
