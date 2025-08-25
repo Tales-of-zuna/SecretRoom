@@ -61,9 +61,8 @@ fun MoviesRow(
     startPadding: Dp = rememberChildPadding().start,
     endPadding: Dp = rememberChildPadding().end,
     title: String? = null,
-    titleStyle: TextStyle = MaterialTheme.typography.headlineLarge.copy(
+    titleStyle: TextStyle = MaterialTheme.typography.titleMedium.copy(
         fontWeight = FontWeight.Medium,
-        fontSize = 30.sp
     ),
     showItemTitle: Boolean = true,
     showIndexOverImage: Boolean = false,
@@ -83,7 +82,7 @@ fun MoviesRow(
                 style = titleStyle,
                 modifier = Modifier
                     .alpha(1f)
-                    .padding(start = startPadding, top = 16.dp, bottom = 16.dp)
+                    .padding(start = startPadding, top = 8.dp, bottom = 8.dp)
             )
         }
         AnimatedContent(

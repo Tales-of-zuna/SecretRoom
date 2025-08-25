@@ -24,6 +24,7 @@ import mn.univision.secretroom.data.entities.MovieList
 import mn.univision.secretroom.data.util.StringConstants
 import mn.univision.secretroom.presentation.common.Error
 import mn.univision.secretroom.presentation.common.FeaturedMoviesCarousel
+import mn.univision.secretroom.presentation.common.HighlightMoviesRow
 import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.common.MoviesRow
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
@@ -117,7 +118,7 @@ private fun Content(
             )
         }
         item(contentType = "Top10MoviesList") {
-            Top10MoviesList(
+            HighlightMoviesRow(
                 movieList = top10Movies,
                 onMovieClick = onMovieClick,
                 modifier = Modifier.onFocusChanged {

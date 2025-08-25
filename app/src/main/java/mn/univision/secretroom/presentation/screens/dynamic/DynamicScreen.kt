@@ -1,7 +1,7 @@
 package mn.univision.secretroom.presentation.screens.dynamic
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,46 +21,45 @@ fun DynamicScreen(
     goToVideoPlayer: (Movie) -> Unit,
     isTopBarVisible: Boolean,
     onMovieClick: (Movie) -> Unit,
-    openCategoryMovieList: (categoryId: String) -> Unit
+    openCategoryMovieList: (categoryId: String) -> Unit,
+//    viewModel: DynamicScreenViewModel = hiltViewModel()
 ) {
-    val lazyColumnState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
     val shouldShowTopBar by remember {
         derivedStateOf {
-            lazyColumnState.firstVisibleItemIndex == 0 &&
-                    lazyColumnState.firstVisibleItemScrollOffset < 100
+            lazyListState.firstVisibleItemIndex == 0 &&
+                    lazyListState.firstVisibleItemScrollOffset < 100
         }
     }
+//
+//    LaunchedEffect(screen?._id) {
+//        viewModel.loadContentForScreen(screen)
+//    }
+
     LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
     }
 
-    Text(screen?._id ?: "No id")
-
-    Column {
-        Content(
-            screen = screen,
-            onMovieClick = onMovieClick,
-            goToVideoPlayer = goToVideoPlayer,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
-
-}
-
-@Composable
-fun Content(
-    screen: ViewItem?,
-    onMovieClick: (Movie) -> Unit,
-    goToVideoPlayer: (Movie) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    screen?.items?.forEach { viewSubItem ->
-        key(viewSubItem._id) {
-            DynamicSection(
-                section = viewSubItem,
-                onMovieClick = onMovieClick,
-                goToVideoPlayer = goToVideoPlayer
-            )
+    LaunchedEffect(isTopBarVisible) {
+        if (isTopBarVisible) {
+            lazyListState.animateScrollToItem(0)
         }
     }
+
+    Text(screen?._id ?: "No id")
+
+    LazyColumn(state = lazyListState, modifier = Modifier.fillMaxSize()) {
+        item {
+            screen?.items?.forEach { section ->
+                key(section._id) {
+                    DynamicSection(
+                        section = section,
+                        onMovieClick = onMovieClick,
+                        goToVideoPlayer = goToVideoPlayer
+                    )
+                }
+            }
+        }
+    }
+
 }

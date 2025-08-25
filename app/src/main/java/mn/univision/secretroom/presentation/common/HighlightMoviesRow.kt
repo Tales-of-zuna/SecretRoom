@@ -1,6 +1,4 @@
-
-
-package mn.univision.secretroom.presentation.screens.home
+package mn.univision.secretroom.presentation.common
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -37,14 +35,11 @@ import androidx.tv.material3.Text
 import mn.univision.secretroom.R
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.entities.MovieList
-import mn.univision.secretroom.presentation.common.ImmersiveListMoviesRow
-import mn.univision.secretroom.presentation.common.ItemDirection
-import mn.univision.secretroom.presentation.common.PosterImage
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
 import mn.univision.secretroom.presentation.utils.bringIntoViewIfChildrenAreFocused
 
 @Composable
-fun Top10MoviesList(
+fun HighlightMoviesRow(
     movieList: MovieList,
     modifier: Modifier = Modifier,
     gradientColor: Color = MaterialTheme.colorScheme.surface.copy(alpha = 0.7f),
@@ -142,7 +137,7 @@ private fun Background(
             targetState = movie,
             label = "posterUriCrossfade",
 
-        ) {
+            ) {
             PosterImage(movie = it, modifier = Modifier.fillMaxSize())
         }
     }

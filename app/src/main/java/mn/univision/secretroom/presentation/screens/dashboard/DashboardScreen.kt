@@ -261,8 +261,7 @@ private fun Body(
                     onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                     openCategoryMovieList = openCategoryMovieList,
                     goToVideoPlayer = openVideoPlayer,
-
-                    )
+                )
             }
         }
         composable(Screens.DynamicScreen.withArgs("Profile")) {

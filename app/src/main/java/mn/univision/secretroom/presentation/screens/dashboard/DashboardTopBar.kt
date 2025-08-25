@@ -71,7 +71,7 @@ fun DashboardTopBar(
                     .alpha(0.75f)
                     .padding(end = 8.dp),
             )
-   
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -150,8 +150,6 @@ fun DashboardTopBar(
                 )
             }
         }
-
-
     }
 }
 
