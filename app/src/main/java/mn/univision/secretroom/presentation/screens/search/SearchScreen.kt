@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,7 +49,6 @@ import mn.univision.secretroom.data.entities.MovieList
 import mn.univision.secretroom.data.models.ViewItem
 import mn.univision.secretroom.presentation.common.MoviesRow
 import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
-import mn.univision.secretroom.presentation.screens.dynamic.DynamicSection
 import mn.univision.secretroom.presentation.theme.SecretRoomCardShape
 
 @Composable
@@ -220,15 +218,16 @@ fun SearchResult(
             ) { selectedMovie -> onMovieClick(selectedMovie) }
         }
 
-        item {
-            viewsItem?.items?.forEach { viewSubItem ->
-                key(viewSubItem._id) {
-                    DynamicSection(
-                        section = viewSubItem, onMovieClick = onMovieClick,
-                        goToVideoPlayer = {},
-                    )
-                }
-            }
-        }
+//        item {
+//            viewsItem?.items?.forEach { viewSubItem ->
+//                key(viewSubItem._id) {
+//                    DynamicSection(
+//                        section = viewSubItem, onMovieClick = onMovieClick,
+//                        goToVideoPlayer = {},
+//                        contentManager = DynamicContentManager(),
+//                    )
+//                }
+//            }
+//        }
     }
 }

@@ -1,66 +1,69 @@
 package mn.univision.secretroom.presentation.screens.dynamic
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import mn.univision.secretroom.data.entities.DynamicContent
 import mn.univision.secretroom.data.entities.Movie
-import mn.univision.secretroom.data.entities.MovieList
 import mn.univision.secretroom.data.models.ViewSubItem
-import mn.univision.secretroom.presentation.common.Error
+import mn.univision.secretroom.data.storage.DynamicContentManager
 import mn.univision.secretroom.presentation.common.FeaturedMoviesCarousel
 import mn.univision.secretroom.presentation.common.ItemDirection
-import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.common.MoviesRow
 
 @Composable
 fun DynamicSection(
     section: ViewSubItem,
+    contentManager: DynamicContentManager, // Pass from parent
     onMovieClick: (Movie) -> Unit,
     goToVideoPlayer: (Movie) -> Unit,
-    viewModel: DynamicSectionViewModel = hiltViewModel()
 ) {
-    val contentState by viewModel.contentState.collectAsStateWithLifecycle()
+    val sectionId = remember(section) { section._id }
+    val contentStates by contentManager.contentStates.collectAsStateWithLifecycle()
+    val contentState = contentStates[sectionId] ?: DynamicContentManager.DynamicSectionState.Initial
 
-    // Load content when the composable is first displayed
-    LaunchedEffect(section.uri) {
-        viewModel.loadContent(section.uri)
+    // Load content only once
+    LaunchedEffect(sectionId, section.uri) {
+        if (contentState is DynamicContentManager.DynamicSectionState.Initial) {
+            contentManager.loadContent(sectionId, section.uri)
+        }
     }
 
     when (contentState) {
-        is DynamicSectionViewModel.DynamicSectionState.Initial -> {
-            // Do nothing, waiting to load
+        is DynamicContentManager.DynamicSectionState.Initial -> {
+            // Show placeholder or nothing
         }
 
-        is DynamicSectionViewModel.DynamicSectionState.Loading -> {
-            Box(
+        is DynamicContentManager.DynamicSectionState.Loading -> {
+            // Use a lightweight placeholder instead of Loading composable
+            Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-            ) {
-                Loading(modifier = Modifier)
-            }
+            )
         }
 
-        is DynamicSectionViewModel.DynamicSectionState.Success -> {
+        is DynamicContentManager.DynamicSectionState.Success -> {
+            // Use remember to prevent recreation on recomposition
+            val content = remember(contentState) { contentState.content }
             RenderSection(
                 section = section,
-                content = (contentState as DynamicSectionViewModel.DynamicSectionState.Success).content,
+                content = content,
                 onMovieClick = onMovieClick,
                 goToVideoPlayer = goToVideoPlayer
             )
         }
 
-        is DynamicSectionViewModel.DynamicSectionState.Error -> {
-            Error(modifier = Modifier.padding(16.dp))
+        is DynamicContentManager.DynamicSectionState.Error -> {
+            // Don't show error for individual sections to avoid UI clutter
         }
     }
 }
@@ -72,16 +75,24 @@ private fun RenderSection(
     onMovieClick: (Movie) -> Unit,
     goToVideoPlayer: (Movie) -> Unit
 ) {
-    val movieList: MovieList = content.map { dynamicContent ->
-        Movie(
-            id = dynamicContent.id,
-            videoUri = dynamicContent.deepLink ?: "",
-            subtitleUri = null,
-            posterUri = dynamicContent.posterVertical ?: dynamicContent.posterHorizontal ?: "",
-            name = dynamicContent.name,
-            description = dynamicContent.description
-        )
+    // Convert only once and remember
+    val movieList = remember(content) {
+        content.map { dynamicContent ->
+            Movie(
+                id = dynamicContent.id,
+                videoUri = dynamicContent.deepLink ?: "",
+                subtitleUri = null,
+                posterUri = dynamicContent.posterVertical
+                    ?: dynamicContent.posterHorizontal
+                    ?: "",
+                name = dynamicContent.name,
+                description = dynamicContent.description
+            )
+        }
     }
+
+    // Early return if empty
+    if (movieList.isEmpty()) return
 
     when (section.type?.lowercase()) {
         "carousel" -> {
@@ -117,20 +128,16 @@ private fun RenderSection(
         }
 
         "banner" -> {
-            // Implement banner section
-            if (movieList.isNotEmpty()) {
-                FeaturedMoviesCarousel(
-                    movies = movieList.take(1),
-                    goToVideoPlayer = goToVideoPlayer,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                )
-            }
+            FeaturedMoviesCarousel(
+                movies = movieList.take(1),
+                goToVideoPlayer = goToVideoPlayer,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
+            )
         }
 
         else -> {
-            // Fallback to list
             MoviesRow(
                 modifier = Modifier.padding(top = 16.dp),
                 movieList = movieList,

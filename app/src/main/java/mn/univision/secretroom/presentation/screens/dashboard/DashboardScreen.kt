@@ -48,6 +48,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import mn.univision.secretroom.data.entities.Movie
 import mn.univision.secretroom.data.models.ViewItem
+import mn.univision.secretroom.data.storage.DynamicContentManager
 import mn.univision.secretroom.presentation.common.Error
 import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.screens.Screens
@@ -78,7 +79,8 @@ fun DashboardScreen(
     isComingBackFromDifferentScreen: Boolean,
     resetIsComingBackFromDifferentScreen: () -> Unit,
     onBackPressed: () -> Unit,
-    viewModel: DashboardViewModel = hiltViewModel()
+    viewModel: DashboardViewModel = hiltViewModel(),
+    contentManager: DynamicContentManager = hiltViewModel()
 ) {
     val density = LocalDensity.current
     val focusManager = LocalFocusManager.current
@@ -185,6 +187,7 @@ fun DashboardScreen(
                         isTopBarVisible = isTopBarVisible,
                         navController = navController,
                         dynamicScreens = dynamicScreens,
+                        contentManager = contentManager,
                         modifier = if (isDynamicScreen) {
                             Modifier
                                 .offset(y = navHostTopPaddingDp - 45.dp)
@@ -259,7 +262,8 @@ private fun Body(
     navController: NavHostController = rememberNavController(),
     isTopBarVisible: Boolean = true,
     dynamicScreens: List<ViewItem> = emptyList(),
-    views: List<ViewItem>
+    views: List<ViewItem>,
+    contentManager: DynamicContentManager,
 ) =
     NavHost(
         modifier = modifier,
@@ -275,6 +279,7 @@ private fun Body(
                     onMovieClick = { movie -> openMovieDetailsScreen(movie.id) },
                     openCategoryMovieList = openCategoryMovieList,
                     goToVideoPlayer = openVideoPlayer,
+                    contentManager = contentManager
                 )
             }
         }

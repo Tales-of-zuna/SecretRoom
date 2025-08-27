@@ -5,8 +5,11 @@ import androidx.core.content.edit
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.withContext
 import mn.univision.secretroom.data.models.ViewItem
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,8 +21,9 @@ class ViewsDataManager @Inject constructor(
 ) {
     private val gson = Gson()
     private val _viewsFlow = MutableStateFlow<List<ViewItem>?>(null)
-    val viewsFlow = _viewsFlow.asStateFlow()
+    val viewsFlow: StateFlow<List<ViewItem>?> = _viewsFlow.asStateFlow()
 
+    @Volatile
     private var cachedViews: List<ViewItem>? = null
 
     companion object {
@@ -27,32 +31,38 @@ class ViewsDataManager @Inject constructor(
         private const val VIEWS_PREFS_KEY = "cached_views_json"
     }
 
-    suspend fun saveViews(views: List<ViewItem>) {
+    suspend fun saveViews(views: List<ViewItem>) = withContext(Dispatchers.IO) {
         cachedViews = views
         _viewsFlow.value = views
+
         val json = gson.toJson(views)
         saveToPreferences(json)
         saveToInternalStorage(json)
     }
 
-    suspend fun loadCachedViews(): List<ViewItem>? {
-        cachedViews?.let { return it }
+    suspend fun loadCachedViews(): List<ViewItem>? = withContext(Dispatchers.IO) {
+        // Return in-memory cache first
+        cachedViews?.let { return@withContext it }
 
+        // Try SharedPreferences (faster)
         val prefsViews = loadFromPreferences()
         if (prefsViews != null) {
             cachedViews = prefsViews
             _viewsFlow.value = prefsViews
-            return prefsViews
+            return@withContext prefsViews
         }
 
+        // Try internal storage (slower)
         val storageViews = loadFromInternalStorage()
         if (storageViews != null) {
             cachedViews = storageViews
             _viewsFlow.value = storageViews
-            return storageViews
+            // Also update SharedPreferences for faster next load
+            gson.toJson(storageViews)?.let { saveToPreferences(it) }
+            return@withContext storageViews
         }
 
-        return null
+        null
     }
 
     fun getViewById(viewId: String): ViewItem? {
@@ -69,16 +79,9 @@ class ViewsDataManager @Inject constructor(
         return cachedViews?.filter { it.kids == true } ?: emptyList()
     }
 
-    suspend fun clearCache() {
-        cachedViews = null
-        _viewsFlow.value = null
-        clearPreferences()
-        clearInternalStorage()
-    }
-
     private fun saveToPreferences(json: String) {
         context.getSharedPreferences("views_cache", Context.MODE_PRIVATE)
-            .edit {
+            .edit(commit = false) { // Use apply instead of commit
                 putString(VIEWS_PREFS_KEY, json)
             }
     }
@@ -101,6 +104,7 @@ class ViewsDataManager @Inject constructor(
                 it.write(json.toByteArray())
             }
         } catch (e: Exception) {
+            // Log error
         }
     }
 
@@ -113,20 +117,6 @@ class ViewsDataManager @Inject constructor(
             }
         } catch (e: Exception) {
             null
-        }
-    }
-
-    private fun clearPreferences() {
-        context.getSharedPreferences("views_cache", Context.MODE_PRIVATE)
-            .edit {
-                remove(VIEWS_PREFS_KEY)
-            }
-    }
-
-    private fun clearInternalStorage() {
-        try {
-            context.deleteFile(VIEWS_CACHE_FILE)
-        } catch (e: Exception) {
         }
     }
 }
