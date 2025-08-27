@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -24,11 +23,10 @@ fun DynamicScreen(
     isTopBarVisible: Boolean,
     onMovieClick: (Movie) -> Unit,
     openCategoryMovieList: (categoryId: String) -> Unit,
-    contentManager: DynamicContentManager // Injected from parent
+    contentManager: DynamicContentManager
 ) {
     val lazyListState = rememberLazyListState()
 
-    // Optimize scroll detection
     val shouldShowTopBar by remember {
         derivedStateOf {
             lazyListState.firstVisibleItemIndex == 0 &&
@@ -36,39 +34,28 @@ fun DynamicScreen(
         }
     }
 
-    DisposableEffect(shouldShowTopBar) {
+    LaunchedEffect(shouldShowTopBar) {
         onScroll(shouldShowTopBar)
-        onDispose { }
     }
 
-    // Preload visible and next sections
-    LaunchedEffect(screen) {
-        screen?.items?.let { sections ->
-            val preloadSections = sections.take(3).map {
-                it._id to it.uri
-            }
-            contentManager.preloadContent(preloadSections)
+    val visibleItemsInfo by remember {
+        derivedStateOf {
+            lazyListState.layoutInfo.visibleItemsInfo.map { it.index }.toSet()
         }
     }
 
-    // Track visible items for preloading
-    val visibleItemsInfo by remember {
-        derivedStateOf { lazyListState.layoutInfo.visibleItemsInfo }
-    }
-
     LaunchedEffect(visibleItemsInfo) {
-        val visibleIndices = visibleItemsInfo.map { it.index }
-        val maxIndex = visibleIndices.maxOrNull() ?: 0
-
-        // Preload next 2 sections
         screen?.items?.let { sections ->
-            val nextSections = sections
-                .drop(maxIndex + 1)
-                .take(2)
-                .map { it._id to it.uri }
+            val maxVisibleIndex = visibleItemsInfo.maxOrNull() ?: 0
+            val preloadRange = (maxVisibleIndex + 1)..(maxVisibleIndex + 3)
 
-            if (nextSections.isNotEmpty()) {
-                contentManager.preloadContent(nextSections)
+            val sectionsToPreload = sections
+                .filterIndexed { index, _ -> index in preloadRange }
+                .map { it._id to it.uri }
+                .filter { (_, uri) -> !uri.isNullOrEmpty() }
+
+            if (sectionsToPreload.isNotEmpty()) {
+                contentManager.preloadContent(sectionsToPreload)
             }
         }
     }
@@ -79,16 +66,19 @@ fun DynamicScreen(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(bottom = 108.dp)
         ) {
-            screen.items?.forEach { section ->
-                item(
-                    key = section._id,
-                    contentType = section.type
-                ) {
+            screen.items?.let { sections ->
+                items(
+                    count = sections.size,
+                    key = { index -> sections[index]._id },
+                    contentType = { index -> sections[index].type }
+                ) { index ->
+                    val section = sections[index]
                     DynamicSection(
                         section = section,
                         contentManager = contentManager,
                         onMovieClick = onMovieClick,
-                        goToVideoPlayer = goToVideoPlayer
+                        goToVideoPlayer = goToVideoPlayer,
+                        modifier = Modifier
                     )
                 }
             }
