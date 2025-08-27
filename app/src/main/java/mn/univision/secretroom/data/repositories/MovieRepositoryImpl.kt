@@ -1,7 +1,7 @@
-
-
 package mn.univision.secretroom.data.repositories
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import mn.univision.secretroom.data.entities.MovieCategoryDetails
 import mn.univision.secretroom.data.entities.MovieDetails
 import mn.univision.secretroom.data.entities.MovieList
@@ -14,8 +14,6 @@ import mn.univision.secretroom.data.util.StringConstants.Movie.Reviewer.FreshTom
 import mn.univision.secretroom.data.util.StringConstants.Movie.Reviewer.ReviewerName
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 @Singleton
 class MovieRepositoryImpl @Inject constructor(
@@ -73,7 +71,7 @@ class MovieRepositoryImpl @Inject constructor(
             id = movie.id,
             videoUri = movie.videoUri,
             subtitleUri = movie.subtitleUri,
-            posterUri = movie.posterUri,
+            posterUri = movie.posterUri ?: "",
             name = movie.name,
             description = movie.description,
             pgRating = "PG-13",

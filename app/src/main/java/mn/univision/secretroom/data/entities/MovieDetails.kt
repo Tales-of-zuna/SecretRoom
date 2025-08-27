@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.data.entities
 
 data class MovieDetails(

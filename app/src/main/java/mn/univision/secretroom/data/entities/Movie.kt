@@ -1,5 +1,3 @@
-
-
 package mn.univision.secretroom.data.entities
 
 import mn.univision.secretroom.data.models.MoviesResponseItem
@@ -8,7 +6,7 @@ data class Movie(
     val id: String,
     val videoUri: String,
     val subtitleUri: String?,
-    val posterUri: String,
+    val posterUri: String?,
     val name: String,
     val description: String
 )

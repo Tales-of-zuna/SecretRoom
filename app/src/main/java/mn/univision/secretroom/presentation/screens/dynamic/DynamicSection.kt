@@ -1,198 +1,105 @@
 package mn.univision.secretroom.presentation.screens.dynamic
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Text
 import mn.univision.secretroom.data.entities.Movie
+import mn.univision.secretroom.data.entities.MovieList
 import mn.univision.secretroom.data.models.ViewSubItem
-import mn.univision.secretroom.data.storage.DynamicContentManager
+import mn.univision.secretroom.presentation.common.Error
 import mn.univision.secretroom.presentation.common.FeaturedMoviesCarousel
+import mn.univision.secretroom.presentation.common.HighlightMoviesRow
+import mn.univision.secretroom.presentation.common.ImmersiveListMoviesRow
 import mn.univision.secretroom.presentation.common.ItemDirection
+import mn.univision.secretroom.presentation.common.Loading
 import mn.univision.secretroom.presentation.common.MoviesRow
+import mn.univision.secretroom.presentation.screens.dashboard.rememberChildPadding
+import mn.univision.secretroom.presentation.screens.home.HomeScreenUiState
+import mn.univision.secretroom.presentation.screens.home.HomeScreenViewModel
 
 @Composable
 fun DynamicSection(
     section: ViewSubItem,
-    contentManager: DynamicContentManager,
-    onMovieClick: (Movie) -> Unit,
-    goToVideoPlayer: (Movie) -> Unit,
-    modifier: Modifier = Modifier
+    onMovieClick: (movie: Movie) -> Unit,
+    goToVideoPlayer: (movie: Movie) -> Unit,
+    homeScreeViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val sectionId = remember(section) { section._id }
-    val contentStates by contentManager.contentStates.collectAsStateWithLifecycle()
-    val contentState = remember(contentStates, sectionId) {
-        contentStates[sectionId] ?: DynamicContentManager.ContentState.Initial
-    }
 
-    // Load content with proper lifecycle management
-    LaunchedEffect(sectionId, section.uri) {
-        if (contentState is DynamicContentManager.ContentState.Initial) {
-            contentManager.loadContent(sectionId, section.uri)
-        }
-    }
-
-    // Handle cleanup when section is no longer visible
-    DisposableEffect(sectionId) {
-        onDispose {
-            // Optional: Clear section state after some delay to free memory
-            // contentManager.clearSection(sectionId)
-        }
-    }
-
-    when (contentState) {
-        is DynamicContentManager.ContentState.Initial -> {
-            // Minimal placeholder
-            Box(modifier = modifier.height(1.dp))
-        }
-
-        is DynamicContentManager.ContentState.Loading -> {
-            LoadingPlaceholder(
-                sectionType = section.type,
-                modifier = modifier
+    val uiState by homeScreeViewModel.uiState.collectAsStateWithLifecycle()
+    when (val s = uiState) {
+        is HomeScreenUiState.Ready -> {
+            Content(
+                section = section,
+                featuredMovies = s.featuredMovieList,
+                trendingMovies = s.trendingMovieList,
+                top10Movies = s.top10MovieList,
+                nowPlayingMovies = s.nowPlayingMovieList,
+                onMovieClick = onMovieClick,
+                onScroll = {},
+                goToVideoPlayer = goToVideoPlayer,
+                isTopBarVisible = true
             )
         }
 
-        is DynamicContentManager.ContentState.Success -> {
-            val movieList = remember(contentState.content) {
-                contentState.content.mapNotNull { dynamicContent ->
-                    if (dynamicContent.name.isNotBlank()) {
-                        Movie(
-                            id = dynamicContent.id,
-                            videoUri = dynamicContent.deepLink ?: "",
-                            subtitleUri = null,
-                            posterUri = dynamicContent.posterVertical
-                                ?: dynamicContent.posterHorizontal
-                                ?: "",
-                            name = dynamicContent.name,
-                            description = dynamicContent.description
-                        )
-                    } else null
-                }
-            }
-
-            if (movieList.isNotEmpty()) {
-                RenderSection(
-                    section = section,
-                    movieList = movieList,
-                    onMovieClick = onMovieClick,
-                    goToVideoPlayer = goToVideoPlayer,
-                    modifier = modifier
-                )
-            }
-        }
-
-        is DynamicContentManager.ContentState.Error -> {
-            if (contentState.canRetry) {
-                ErrorWithRetry(
-                    message = contentState.message,
-                    onRetry = { contentManager.retryContent(sectionId, section.uri) },
-                    modifier = modifier
-                )
-            }
-        }
+        is HomeScreenUiState.Loading -> Loading(modifier = Modifier)
+        is HomeScreenUiState.Error -> Error(modifier = Modifier)
     }
 }
 
-@Composable
-private fun LoadingPlaceholder(
-    sectionType: String?,
-    modifier: Modifier = Modifier
-) {
-    val height = when (sectionType?.lowercase()) {
-        "carousel", "banner" -> 400.dp
-        else -> 200.dp
-    }
-
-    Spacer(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(height)
-    )
-}
 
 @Composable
-private fun ErrorWithRetry(
-    message: String,
-    onRetry: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        onClick = onRetry
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Failed to load content",
-                style = MaterialTheme.typography.titleMedium
-            )
-            Text(
-                text = message,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp)
-            )
-            Text(
-                text = "Tap to retry",
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun RenderSection(
+fun Content(
     section: ViewSubItem,
-    movieList: List<Movie>,
-    onMovieClick: (Movie) -> Unit,
-    goToVideoPlayer: (Movie) -> Unit,
-    modifier: Modifier = Modifier
+    featuredMovies: MovieList,
+    trendingMovies: MovieList,
+    top10Movies: MovieList,
+    nowPlayingMovies: MovieList,
+    onMovieClick: (movie: Movie) -> Unit,
+    onScroll: (isTopBarVisible: Boolean) -> Unit,
+    goToVideoPlayer: (movie: Movie) -> Unit,
+    modifier: Modifier = Modifier,
+    isTopBarVisible: Boolean = true,
 ) {
+    rememberChildPadding()
+    var immersiveListHasFocus by remember { mutableStateOf(false) }
+
     when (section.type?.lowercase()) {
+        "list" -> {
+            MoviesRow(
+                modifier = Modifier.padding(top = 16.dp),
+                movieList = trendingMovies,
+                title = section.title?.mn ?: "",
+                showItemTitle = false,
+                onMovieSelected = onMovieClick
+            )
+        }
+
         "carousel" -> {
             FeaturedMoviesCarousel(
-                movies = movieList.take(5), // Limit carousel items
+                movies = featuredMovies,
                 goToVideoPlayer = goToVideoPlayer,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .height(400.dp)
             )
         }
 
-        "list" -> {
-            MoviesRow(
-                modifier = modifier.padding(top = 16.dp),
-                movieList = movieList.take(20), // Limit list items
-                title = section.title?.mn ?: section.name,
-                showItemTitle = true,
-                onMovieSelected = onMovieClick
-            )
-        }
-
         "tag" -> {
-            MoviesRow(
-                modifier = modifier.padding(top = 16.dp),
-                movieList = movieList.take(10), // Limit tag items
-                title = section.title?.mn ?: section.name,
+            ImmersiveListMoviesRow(
+                modifier = Modifier.padding(top = 16.dp),
+                movieList = featuredMovies,
+                title = section.title?.mn ?: "",
                 itemDirection = ItemDirection.Horizontal,
                 onMovieSelected = onMovieClick,
                 showItemTitle = false,
@@ -200,25 +107,26 @@ private fun RenderSection(
             )
         }
 
+
+// ene 2 iig veiws json deer nemne
         "banner" -> {
-            if (movieList.isNotEmpty()) {
-                FeaturedMoviesCarousel(
-                    movies = listOf(movieList.first()),
-                    goToVideoPlayer = goToVideoPlayer,
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                )
-            }
+            Text(text = "Banner section")
+        }
+
+        "highlight" -> {
+            HighlightMoviesRow(
+                movieList = top10Movies,
+                onMovieClick = onMovieClick,
+                modifier = Modifier.onFocusChanged {
+                    immersiveListHasFocus = it.hasFocus
+                },
+            )
         }
 
         else -> {
-            MoviesRow(
-                modifier = modifier.padding(top = 16.dp),
-                movieList = movieList.take(15), // Default limit
-                title = section.title?.mn ?: section.name,
-                onMovieSelected = onMovieClick
-            )
+            Text(text = "")
         }
+
+
     }
 }
