@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "request": "GetVideoRecommendationList",
+    "fullLength": 20,
+    "timestamp": 1756265430233
+  },
+  "response": [
+    {
+      "ratersCount": 2,
+      "contentSeq": 1,
+      "images": [],
+      "prLevel": 9,
+      "seriesName": "Team Bulldog: Off-Duty Investigation",
+      "availabilities": [],
+      "prName": "15+",
+      "rating": 1,
+      "seriesRatersCount": 2,
+      "type": "Fallback",
+      "ContentProperties": [],
+      "recommendationReasons": [],
+      "genres": [
+        { "name": "Инээдмийн", "externalId": "Comedy", "id": "Comedy" },
+        { "name": "Драм", "externalId": "Drama", "id": "Drama" },
+        { "name": "Тулаант", "externalId": "Action", "id": "Action" },
+        { "name": "Гэмт хэрэг", "externalId": "Crime", "id": "Crime" }
+      ],
+      "name": "1-р бүлэг",
+      "externalContentId": "SE_0000019319",
+      "id": 7170749,
+      "externalSeriesId": "SR_0000019318",
+      "contentType": "Season",
+      "seriesRating": 1,
+      "seriesImages": [
+        {
+          "name": "title_logo",
+          "value": "/attachments/TeamBulldogOffDutyInvestigationS01_title.png"
+        },
+        {
+          "name": "long_banner",
+          "value": "/attachments/TeamBulldogOffDutyInvestigationS01_banner.jpg"
+        },
+        {
+          "name": "horizontal_background",
+          "value": "/attachments/TeamBulldogOffDutyInvestigationS01_fullscreen.jpg"
+        },
+        {
+          "name": "vertical_background",
+          "value": "/attachments/Team-Bulldog-Off-Duty-Investigation_mobile.jpg"
+        },
+        {
+          "name": "HorizontalImage",
+          "value": "/attachments/TeamBulldogOffDutyInvestigationS01_horizontal.jpg"
+        },
+        {
+          "name": "VerticalImage",
+          "value": "/attachments/TeamBulldogOffDutyInvestigationS01_vertical.jpg"
+        }
+      ]
+    },
+    {
+      "ratersCount": 0,
+      "contentSeq": 1,
+      "images": [],
+      "prLevel": 11,
+      "seriesName": "Зомби болохоос өмнө хийх 100 зүйл",
+      "availabilities": [],
+      "prName": "17+",
+      "rating": 0,
+      "seriesRatersCount": 0,
+      "type": "Fallback",
+      "ContentProperties": [],
+      "recommendationReasons": [],
+      "genres": [
+        { "name": "Зөгнөлт", "externalId": "Зөгнөлт", "id": "Зөгнөлт" },
+        { "name": "Инээдмийн", "externalId": "Comedy", "id": "Comedy" },
+        { "name": "Адал явдалт", "externalId": "Adventure", "id": "Adventure" },
+        { "name": "Тулаант", "externalId": "Action", "id": "Action" },
+        { "name": "Фантази", "externalId": "Фантази", "id": "Фантази" }
+      ],
+      "name": "1-р бүлэг",
+      "externalContentId": "SE_0000057643",
+      "id": 73273633,
+      "externalSeriesId": "SR_0000057642",
+      "contentType": "Season",
+      "seriesRating": 0,
+      "seriesImages": [
+        {
+          "name": "HorizontalImage",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_Horizontal.jpg"
+        },
+        {
+          "name": "title_logo",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_title.png"
+        },
+        {
+          "name": "horizontal_background",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_fullscreen.jpg"
+        },
+        {
+          "name": "vertical_background",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_mobile.jpg"
+        },
+        {
+          "name": "long_banner",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_banner.jpg"
+        },
+        {
+          "name": "VerticalImage",
+          "value": "/attachments/ZombiBolohoosOmnoHiih100nZuil_Vertical.jpg"
+        }
+      ]
+    }
+  ]
+}

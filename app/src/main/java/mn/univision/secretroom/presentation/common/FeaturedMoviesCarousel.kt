@@ -228,7 +228,7 @@ private fun WatchNowButton() {
         Spacer(Modifier.size(8.dp))
         Text(
             text = stringResource(R.string.watch_now),
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleSmall,
         )
     }
 }

@@ -1,0 +1,132 @@
+{
+  "metadata": {
+    "request": "GetUnifiedList",
+    "fullLength": 5,
+    "timestamp": 1756259236369
+  },
+  "response": [
+    {
+      "template": "information",
+      "isSecured": false,
+      "attachments": [
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_horizontal",
+          "assetName": "",
+          "value": "/attachments/TwilightBDPart1__lookhorizontal.jpg"
+        },
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_vertical",
+          "assetName": "",
+          "value": "/attachments/TwilightBDPart1__lookvertical.jpg"
+        }
+      ],
+      "description": "Шинэхэн гэрлэсэн хосууд Белла, Эдвард 2 бал сараа жаргалтай өнгөрүүлсний дараа ахиад л тэдний өмнө асуудал тулгарсныг ухаарчээ. Белла жирэмсэн болсон байх бөгөөд гэдсэн дэх үр нь\n",
+      "externalId": "176202",
+      "isBlockedBrowsing": false,
+      "parentId": 91814,
+      "responseElementType": "Page",
+      "name": "The Twilight Saga: Breaking Dawn \u2013 Part 1",
+      "extrafields": [
+        {
+          "responseElementType": "Extrafield",
+          "name": "max_pr_level",
+          "value": ""
+        },
+        {
+          "responseElementType": "Extrafield",
+          "name": "deep_Link",
+          "value": "app://univision?section=app.info&type=Movie&externalId=MV_0000013475"
+        }
+      ],
+      "securityGroups": [],
+      "id": 176245,
+      "status": 2
+    },
+    {
+      "template": "information",
+      "isSecured": false,
+      "attachments": [
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_horizontal",
+          "assetName": "",
+          "value": "/attachments/MillersInMarriage__lookhorizontal.jpg"
+        },
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_vertical",
+          "assetName": "",
+          "value": "/attachments/MillersInMarriage__lookvertical.jpg"
+        }
+      ],
+      "description": "Гэрлэлт ба үнэнч байдал, ажлын амжилт, бүтэлгүйтэл, амьдралын \"шинэ бүлэг\"-ээ эхлүүлэхэд тулгардаг асуудлууд дүүрэн дунд эргэм насны гурван гэрлэсэн хосын тухай өгүүлнэ.\n\n",
+      "externalId": "91662",
+      "isBlockedBrowsing": false,
+      "parentId": 91814,
+      "responseElementType": "Page",
+      "name": "Millers In Marriage",
+      "extrafields": [
+        {
+          "responseElementType": "Extrafield",
+          "name": "max_pr_level",
+          "value": ""
+        },
+        {
+          "responseElementType": "Extrafield",
+          "name": "deep_Link",
+          "value": "app://univision?section=app.info&type=Movie&externalId=MV_0000066821"
+        }
+      ],
+      "securityGroups": [],
+      "id": 176200,
+      "status": 2
+    },
+    {
+      "template": "information",
+      "isSecured": false,
+      "attachments": [
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_horizontal",
+          "assetName": "",
+          "value": "/attachments/TheOtherWoman__lookhorizontal.jpg"
+        },
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "banner_vertical",
+          "assetName": "",
+          "value": "/attachments/TheOtherWoman__lookvertical.jpg"
+        }
+      ],
+      "description": "Карли саяхнаас Марк хэмээх тун дажгүй залуутай болзож эхэлжээ. Найз залуу нь гэнэт өөр тийш явах болсонд уурласан ч Карли гэрт нь гэнэт очиж сюрприз барихаар шийджээ.\n",
+      "externalId": "33",
+      "isBlockedBrowsing": false,
+      "parentId": 91814,
+      "responseElementType": "Page",
+      "name": "The Other Woman",
+      "extrafields": [
+        {
+          "responseElementType": "Extrafield",
+          "name": "max_pr_level",
+          "value": ""
+        },
+        {
+          "responseElementType": "Extrafield",
+          "name": "deep_Link",
+          "value": "app://univision?section=app.info&type=Movie&externalId=MV_0000013094"
+        }
+      ],
+      "securityGroups": [],
+      "id": 91645,
+      "status": 2
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "request": "GetChannelList",
+    "fullLength": 232,
+    "timestamp": 1756259774254
+  },
+  "response": [
+    {
+      "prLevel": 2,
+      "attachments": [
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "CHANNEL_IMAGE",
+          "assetName": "",
+          "value": "/attachments/0_UnivisionPromoHD.jpg"
+        },
+        {
+          "responseElementType": "Attachment",
+          "assetId": "",
+          "name": "CHANNEL_LOGO",
+          "assetName": "",
+          "value": "/attachments/Univision Promo HD.png"
+        }
+      ],
+      "externalChannelId": "CH1000",
+      "flags": 12,
+      "description": "",
+      "bitrate": "",
+      "interactiveUrl": "",
+      "responseElementType": "Channel",
+      "number": 0,
+      "isNpvrAllowed": false,
+      "simultaneousViewsLimit": "",
+      "channelTechFormatExtrafields": [],
+      "affiliation": "",
+      "contentDefinition": "HD",
+      "id": 251886,
+      "serviceId": "",
+      "identifier": "",
+      "ip": "238.1.1.250",
+      "prName": "3+",
+      "originalNetworkId": "",
+      "encoding": "MPEG-4",
+      "url": "",
+      "transportStreamId": "",
+      "port": 8001,
+      "sourceType": "IP",
+      "name": "Univision Promo HD",
+      "extrafields": [
+        {
+          "responseElementType": "Extrafield",
+          "name": "Interactive",
+          "value": "true"
+        },
+        {
+          "responseElementType": "Extrafield",
+          "name": "PPV",
+          "value": "false"
+        },
+        { "responseElementType": "Extrafield", "name": "City", "value": "" }
+      ],
+      "category": "",
+      "longName": ""
+    }
+  ]
+}

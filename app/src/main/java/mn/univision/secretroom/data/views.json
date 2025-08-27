@@ -1,0 +1,221 @@
+[
+  {
+    "_id": "607d71e3afbe91001348e49a",
+    "name": "HOME",
+    "__v": 50,
+    "kids": true,
+    "title": {
+      "mn": "Home",
+      "en": "Home"
+    },
+    "items": [
+      {
+        "_id": "60e6b17f68d283001484ead5",
+        "uri": "https://looktv.mn/RTEFacade/GetUnifiedList?client=json&external_category_id=looktv_home_main_banner{PROVINCE}",
+        "type": "CAROUSEL",
+        "name": "HOME-HIGHLIGHTSs",
+        "cache": false,
+        "__v": 1,
+        "title": {
+          "en": "HOME-HIGHLIGHTS",
+          "mn": "ГЭРИЙН ОНЦЛОХ ҮЙЛ ЯВДАЛ"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      },
+      {
+        "_id": "60e6b17f68d283001484ead7",
+        "uri": "https://looktv.mn/RTEFacade/GetUnifiedList?client=json&statuses=published&filter_empty_categories=true&external_category_id=HOME_CATEGORY_FILTERS",
+        "type": "TAG",
+        "name": "FILTERS-HOME",
+        "cache": false,
+        "__v": 1,
+        "title": {
+          "en": "Filters Home",
+          "mn": "Filters Home"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      },
+
+      {
+        "_id": "6388579399367b0013218982",
+        "uri": "https://looktv.mn/RTEFacade/GetUnifiedList?client=json&external_category_id=LOOKTV_HOME_NOMADIA",
+        "type": "LIST",
+        "name": "Nomadia Originals",
+        "__v": 0,
+        "title": {
+          "mn": "Nomadia Originals",
+          "en": "Nomadia Originals"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      },
+
+      {
+        "_id": "62be6bf096f48b00133b0c54",
+        "uri": "https://looktv.mn/RTEFacade/GetChannelList?client=json",
+        "type": "LIST",
+        "name": "News Channels",
+        "__v": 0,
+        "title": {
+          "mn": "Мэдээний сувгууд",
+          "en": "News Channels"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": ["CH1004", "CH2323", "CH2324"]
+        }
+      }
+    ]
+  },
+  {
+    "_id": "607d71e3afbe91001348e433",
+    "name": "BOX",
+    "kids": true,
+    "__v": 1,
+    "title": {
+      "mn": "ВOX",
+      "en": "BOX"
+    },
+    "items": [
+      {
+        "_id": "60e6b17f68d283001484ead6",
+        "uri": "https://looktv.mn/RTEFacade/GetUnifiedList?client=json&external_category_id=box_main_banner",
+        "type": "CAROUSEL",
+        "name": "BOX-HIGHLIGHTS",
+        "cache": false,
+        "__v": 1,
+        "title": {
+          "en": "BOX-HIGHLIGHTS",
+          "mn": "BOX-HIGHLIGHTS"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      },
+      {
+        "_id": "6283b97babaf2000135b7d8z",
+        "uri": "https://looktv.mn/RTEFacade/GetUnifiedList?client=json&statuses=published&filter_empty_categories=true&external_category_id=LOOKTV_TVOD",
+        "type": "SECTION",
+        "name": "BOX section",
+        "__v": 0,
+        "title": {
+          "mn": "BOX",
+          "en": "BOX"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "625bd2a27ad49900137f8420",
+    "name": "EPG",
+    "kids": true,
+    "__v": 2,
+    "title": {
+      "mn": "ТВ Хөтөлбөр",
+      "en": "Guide"
+    },
+    "items": [
+      {
+        "_id": "626295cd82a31400145f0c00",
+        "__v": 5,
+        "name": "FILTERS_EPG",
+        "type": "TAG",
+        "uri": "",
+        "title": {
+          "mn": "Шүүлтүүр",
+          "en": "Filters"
+        },
+        "items": [
+          {
+            "_id": "62594d857ad49900137f8407",
+            "type": "FILTER",
+            "name": "ALL",
+            "__v": 9,
+            "value": [],
+            "title": {
+              "mn": "Бүгд",
+              "en": "All"
+            },
+            "actions": [],
+            "resources": [
+              {
+                "uri": "https://looktv.mn/RTEFacade/images/attachments/12.jpg",
+                "_id": "62bc8848e4f426001220bcc6"
+              }
+            ]
+          },
+          {
+            "_id": "60eec5538a5629001ab40773",
+            "type": "FILTER",
+            "value": [],
+            "name": "FAVOURITES",
+            "__v": 0,
+            "title": {
+              "en": "Favourite channels",
+              "mn": "Дуртай сувгууд"
+            },
+            "actions": [],
+            "resources": [
+              {
+                "uri": "https://looktv.mn/RTEFacade/images/attachments/01.jpg",
+                "_id": "604f4c19730e270061cbdee1"
+              }
+            ]
+          }
+        ],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      }
+    ]
+  },
+  {
+    "_id": "625bd2d97ad49900137f8421",
+    "name": "SEARCH",
+    "kids": true,
+    "__v": 0,
+    "title": {
+      "mn": "Хайх",
+      "en": "Search"
+    },
+    "items": [
+      {
+        "_id": "6259442b8b28a10013c6b8d8",
+        "uri": "https://looktv.mn/compass/GetVideoRecommendationList?type=all&client=json",
+        "type": "LIST",
+        "name": "RECOMMENDED",
+        "cache": true,
+        "__v": 0,
+        "title": {
+          "mn": "Санал болгох",
+          "en": "Recommendation"
+        },
+        "items": [],
+        "filter": {
+          "exclude": [],
+          "include": []
+        }
+      }
+    ]
+  }
+]
