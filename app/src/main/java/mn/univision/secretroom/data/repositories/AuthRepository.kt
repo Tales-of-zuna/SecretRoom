@@ -45,9 +45,9 @@ class AuthRepository @Inject constructor(
             Log.d(TAG, "MAC Address: $macAddress, Serial Number: $serialNumber")
 
             val loginResponse = api.login(
-//                macAddress = macAddress,
-//                serialNumber = serialNumber
-                macAddress = "D4:CF:F9:20:D0:06", serialNumber = "QA99999986111829"
+                macAddress = macAddress,
+                serialNumber = serialNumber
+//                macAddress = "D4:CF:F9:20:D0:06", serialNumber = "QA99999986111829"
             )
 
             if (!loginResponse.isSuccessful) {
